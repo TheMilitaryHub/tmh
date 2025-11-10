@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop</title>
+    <style>
+        :root {
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+            color: #f3f3f3;
+            background-color: #050505;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            background: radial-gradient(circle at top, #101010, #050505 70%);
+            gap: 2.5rem;
+            padding: 0 1.5rem 3rem;
+        }
+
+        main {
+            text-align: center;
+            max-width: 720px;
+            width: min(92vw, 720px);
+            padding: 3rem;
+            border: 1px solid #1f1f1f;
+            border-radius: 20px;
+            background-color: #81613C;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+            color: #222;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin-top: 0;
+            letter-spacing: 0.05em;
+            text-align: center;
+        }
+
+        form {
+            display: grid;
+            gap: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.04em;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid #92817a;
+            padding: 0.85rem 1rem;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #f4b400;
+            box-shadow: 0 0 0 3px rgba(244, 180, 0, 0.2);
+        }
+
+        textarea {
+            min-height: 160px;
+            resize: vertical;
+        }
+
+        button {
+            border: none;
+            border-radius: 999px;
+            padding: 0.9rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            background: linear-gradient(120deg, #f4b400, #ff8800);
+            color: #111;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            letter-spacing: 0.04em;
+            margin-bottom: 0.75rem;
+        }
+
+        p {
+            margin: 0.4rem 0 1rem;
+            line-height: 1.6;
+        }
+
+        .team-card h3 {
+            margin: 0 0 0.25rem;
+            font-size: 1rem;
+            letter-spacing: 0.05em;
+        }
+
+        .team-card p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #d9d9d9;
+        }
+    </style>
+</head>
+<body>
+<modular-menu
+        data-links='[
+        {"label":"Home","href":"./index.html"},
+        {"label":"About","href":"./aboutus.html"},
+        {"label":"Contact","href":"mailto:support@themilitaryhub.org","target":"_blank"},
+        {"label":"Donate","href":".mailto:support@themilitaryhub.org","target":"_blank"},
+        {"label":"Shop","href":"./shop.html"}
+      ]'
+></modular-menu>
+<main id="shop">
+    <h1>Shop</h1>
+    <p>
+        Check out our TeePublic Store Front below!<br>
+        Already have an existing order? Click <a href="https://www.teepublic.com/order/status">here</a>.
+    </p>
+    <h1><b>Apparel</b></h1>
+    <h2><b>Adult Apparel</b></h2>
+    <a href="https://www.teepublic.com/user/sudden-sentience/t-shirts">
+        <img src="" alt="Shirts" style="height:250px; width:250px"></a>
+    <a href="https://www.teepublic.com/user/sudden-sentience/hoodie">
+        <img src="" alt="Hoodies" style="height:250px; width:250px"></a>
+    <a href="https://www.teepublic.com/user/sudden-sentience/long-sleeve-t-shirt">
+        <img src="" alt="Long Sleeve Shirts" style="height:250px; width:250px"></a><br>
+    <a href="https://www.teepublic.com/user/sudden-sentience/crewneck-sweatshirt">
+        <img src="" alt="Crewnecks" style="height:250px; width:250px"></a>
+    <a href="https://www.teepublic.com/user/sudden-sentience/tank-top">
+        <img src="" alt="Tank Tops" style="height:250px; width:250px"></a>
+    <a href="https://www.teepublic.com/user/sudden-sentience/shorts">
+        <img src="" alt="Shorts" style="height:250px; width:250px"></a><br>
+    <a href="https://www.teepublic.com/user/sudden-sentience/baseball-t-shirt">
+        <img src="" alt="Baseball T-Shirts" style="height:250px; width:250px"></a>
+
+    <h2><b>Kids Apparel</b></h2>
+    <a href="https://www.teepublic.com/user/sudden-sentience/kids-t-shirt">
+        <img src="" alt="Kids Shirts" style="height:250px; width:250px"></a>
+    <a href="https://www.teepublic.com/user/sudden-sentience/kids-hoodies">
+        <img src="" alt="Kids Hoodies" style="height:250px; width:250px"></a>
+    <a href="https://www.teepublic.com/user/sudden-sentience/kids-long-sleeve-t-shirts">
+        <img src="" alt="Long Sleeve Shirts" style="height:250px; width:250px"></a>
+
+    <h2><b>Accessories</b></h2>
+    <a href="https://www.teepublic.com/user/sudden-sentience/bags">
+        <img src="" alt="Bags" style="height:250px; width:250px"></a>
+    <a href="https://www.teepublic.com/user/sudden-sentience/hats">
+        <img src="" alt="Hats" style="height:250px; width:250px"></a>
+    <a href="https://www.teepublic.com/user/sudden-sentience/stickers">
+        <img src="" alt="Stickers" style="height:250px; width:250px"></a><br>
+    <a href="https://www.teepublic.com/user/sudden-sentience/magnets">
+        <img src="" alt="Magnets" style="height:250px; width:250px"></a>
+    <a href="https://www.teepublic.com/user/sudden-sentience/phone-case">
+        <img src="" alt="Phone Cases" style="height:250px; width:250px"></a>
+    <a href="https://www.teepublic.com/user/sudden-sentience/pins">
+        <img src="" alt="Pins" style="height:250px; width:250px"></a><br>
+    <a href="https://www.teepublic.com/user/sudden-sentience/totes">
+        <img src="" alt="Totes" style="height:250px; width:250px"></a>
+
+    <h2><b>Home Goods</b></h2>
+    <a href="https://www.teepublic.com/user/sudden-sentience/mug">
+        <img src="" alt="Mugs" style="height:250px; width:250px"></a>
+    <a href="https://www.teepublic.com/user/sudden-sentience/tapestries">
+        <img src="" alt="Tapestries" style="height:250px; width:250px"></a>
+    <a href="https://www.teepublic.com/user/sudden-sentience/posters-and-art">
+        <img src="" alt="Wall Art" style="height:250px; width:250px"></a><br>
+    <a href="https://www.teepublic.com/user/sudden-sentience/throw-pillows">
+        <img src="" alt="Pillows" style="height:250px; width:250px"></a>
+    <br>
+    <br>
+    <p>
+        Request Your Merch Here:<a href="https://docs.google.com/forms/d/e/1FAIpQLSdx60cRLrBmVR6oUBBMZEmDOFaxjcDldtFKgPCn1QlBZHFUDA/viewform">Google Form</a>
+    </p>
+</main>
+</body>
+</html>
