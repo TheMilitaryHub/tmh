@@ -147,8 +147,7 @@
 
     <script src="./scripts/menu-component.js"></script>
     <script>
-      const DISCORD_WEBHOOK_URL =
-//blank for now
+      const DISCORD_WEBHOOK_URL = "https://website.rennygadewarrior.workers.dev";
 
       const form = document.getElementById('contactForm');
       const statusText = document.getElementById('statusText');
@@ -160,7 +159,7 @@
 
         const payload = {
           content: [
-            '**New TMH Contact Form Submission**',
+            '**New Site Contact Form Submission**',
             `**Name/Handle:** ${form.name.value}`,
             `**Preferred Contact:** ${form.contactInfo.value}`,
             '**Message:**',
