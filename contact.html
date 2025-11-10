@@ -4,126 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contact TMH</title>
-    <style>
-      :root {
-        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-        color: #f3f3f3;
-        background-color: #050505;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: flex-start;
-        background: radial-gradient(circle at top, #101010, #050505 70%);
-        gap: 2.5rem;
-        padding: 0 1.5rem 3rem;
-      }
-
-      main {
-        max-width: 720px;
-        width: min(92vw, 720px);
-        padding: 3rem;
-        border: 1px solid #1f1f1f;
-        border-radius: 20px;
-        background-color: #81613C;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
-        color: #111;
-        margin: 0 auto;
-      }
-
-      h1 {
-        margin-top: 0;
-        letter-spacing: 0.05em;
-        text-align: center;
-      }
-
-      form {
-        display: grid;
-        gap: 1.25rem;
-        margin-top: 2rem;
-      }
-
-      label {
-        display: block;
-        font-weight: 600;
-        margin-bottom: 0.4rem;
-        letter-spacing: 0.04em;
-      }
-
-      input,
-      textarea {
-        width: 100%;
-        border-radius: 12px;
-        border: 1px solid #92817a;
-        padding: 0.85rem 1rem;
-        font-size: 1rem;
-        font-family: inherit;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease;
-      }
-
-      input:focus,
-      textarea:focus {
-        outline: none;
-        border-color: #f4b400;
-        box-shadow: 0 0 0 3px rgba(244, 180, 0, 0.2);
-      }
-
-      textarea {
-        min-height: 160px;
-        resize: vertical;
-      }
-
-      button {
-        border: none;
-        border-radius: 999px;
-        padding: 0.9rem 1.5rem;
-        font-size: 1rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        cursor: pointer;
-        background: linear-gradient(120deg, #f4b400, #ff8800);
-        color: #111;
-        transition: transform 0.15s ease, box-shadow 0.15s ease;
-      }
-
-      button:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
-      }
-
-      .status {
-        text-align: center;
-        font-weight: 600;
-        letter-spacing: 0.03em;
-        min-height: 1.2em;
-      }
-
-      .status.error {
-        color: #c0392b;
-      }
-
-      .status.success {
-        color: #1b5e20;
-      }
-    </style>
+    <link rel="stylesheet" href="./styles/site.css" />
   </head>
-  <body>
+  <body class="page page--contact">
     <modular-menu
       data-links='[
         {"label":"Home","href":"./index.html"},
-        {"label":"About","href":"./aboutus.html"},
-        {"label":"Contact","href":"./contact.html"}
+        {"label":"About Us","href":"./aboutus.html"},
+        {"label":"Contact","href":"./contact.html"},
+        {"label":"Donate","href":"./donate.html"},
+        {"label":"Merch Store","href":"./shop.html"}
       ]'
     ></modular-menu>
 
     <main>
-      <h1>Contact the TMH Staff</h1>
-      <p style="text-align: center">
+      <h1 class="text-center">Contact the TMH Staff</h1>
+      <p class="text-center">
         PLACEHOLDER
       </p>
 

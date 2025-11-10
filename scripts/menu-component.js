@@ -16,12 +16,13 @@ template.innerHTML = `
             position: relative;
             width: 100%;
             margin: 0 auto;
-            padding: 1rem 1.5rem 2.75rem;
+            padding: 1.25rem 1.25rem 2.5rem;
             max-width: 1024px;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 0.25rem;
+            gap: 0.75rem;
         }
 
         .menu-toggle {
@@ -29,18 +30,19 @@ template.innerHTML = `
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 44px;
-            height: 44px;
-            transition: transform 0.4s ease;
-            background: none;
-            border: none;
+            width: 36px;
+            height: 36px;
+            transition: transform 0.3s ease, background 0.3s ease;
+            background: radial-gradient(circle at top, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
+            border: 1px solid rgba(255, 255, 255, 0);
             border-radius: 999px;
             padding: 0;
             color: #f7f7f7;
             position: absolute;
+            bottom: -1.95rem;
             left: 50%;
-            bottom: 0.25rem;
-            transform: translateX(-50%);
+            transform: translate(-50%, 0);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
         }
 
         .menu-toggle svg {
@@ -54,16 +56,21 @@ template.innerHTML = `
             outline-offset: 4px;
         }
 
+        .menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.16);
+        }
+
         .menu-toggle.flipped {
-            transform: translateX(-50%) rotate(180deg);
+            transform: translate(-50%, 0) rotate(180deg);
         }
 
         .menu-options {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: stretch;
             background-color: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 999px;
+            border-radius: 20px;
             overflow: hidden;
             transition: max-height 0.4s ease, opacity 0.4s ease;
             max-height: 0;
@@ -72,36 +79,37 @@ template.innerHTML = `
             width: 100%;
             max-width: 960px;
             backdrop-filter: blur(8px);
-            flex-wrap: wrap;
             flex: 1;
         }
 
         .menu-options.show {
-            max-height: 200px;
+            max-height: 480px;
             opacity: 1;
         }
 
         .menu-options a {
             color: #f7f7f7;
-            padding: 14px 28px;
+            padding: 0.9rem 1.25rem;
             text-decoration: none;
             text-align: center;
-            border-right: 1px solid rgba(255, 255, 255, 0.12);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
             font-weight: 600;
             letter-spacing: 0.05em;
             text-transform: uppercase;
             transition: background 0.3s ease, transform 0.2s ease;
-            min-width: 180px;
-            flex: 1;
+            min-width: 0;
+            flex: 1 1 auto;
         }
 
         .menu-options a:last-child {
-            border-right: none;
+            border-bottom: none;
         }
 
-        .menu-options a:hover {
-            animation: bounce 0.3s;
-            background-color: rgba(255, 255, 255, 0.12);
+        @media (hover: hover) {
+            .menu-options a:hover {
+                animation: bounce 0.3s;
+                background-color: rgba(255, 255, 255, 0.12);
+            }
         }
 
         @keyframes bounce {
@@ -111,6 +119,34 @@ template.innerHTML = `
             50% {
                 transform: translateY(-10px);
             }
+        }
+
+        :host([data-mode="desktop"]) .menu-container {
+        padding-top: 1.25rem;
+        padding-bottom: 2.5rem;
+        }
+
+        :host([data-mode="desktop"]) .menu-options {
+            flex-direction: row;
+            justify-content: center;
+            border-radius: 999px;
+        }
+
+        :host([data-mode="desktop"]) .menu-options.show {
+            max-height: none;
+            opacity: 1;
+        }
+
+        :host([data-mode="desktop"]) .menu-options a {
+            border-bottom: none;
+            border-right: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 0.85rem 1.5rem;
+            min-width: auto;
+            flex: 0;
+        }
+
+        :host([data-mode="desktop"]) .menu-options a:last-child {
+            border-right: none;
         }
     </style>
     <div class="menu-container">
@@ -136,20 +172,29 @@ class ModularMenu extends HTMLElement {
         this.menuOptionsEl = this.shadowRoot.getElementById('menuOptions');
         this.menuToggleEl = this.shadowRoot.getElementById('menuToggle');
         this.boundClickableElements = [];
+        this.isDesktop = false;
+        this.handleMediaChange = this.handleMediaChange.bind(this);
 
         this.handleToggle = this.handleToggle.bind(this);
         this.handleHoverSound = this.handleHoverSound.bind(this);
         this.handleSelectSound = this.handleSelectSound.bind(this);
+        this.handleAnchorClick = this.handleAnchorClick.bind(this);
     }
 
     connectedCallback() {
         this.renderMenu();
         this.menuToggleEl.addEventListener('click', this.handleToggle);
+        this.desktopMedia = window.matchMedia('(min-width: 768px)');
+        this.desktopMedia.addEventListener('change', this.handleMediaChange);
+        this.handleMediaChange(this.desktopMedia);
     }
 
     disconnectedCallback() {
         this.menuToggleEl.removeEventListener('click', this.handleToggle);
         this.detachSoundHandlers();
+        if (this.desktopMedia) {
+            this.desktopMedia.removeEventListener('change', this.handleMediaChange);
+        }
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -266,6 +311,9 @@ class ModularMenu extends HTMLElement {
         elements.forEach(element => {
             element.addEventListener('mouseenter', this.handleHoverSound);
             element.addEventListener('click', this.handleSelectSound);
+            if (element.tagName === 'A') {
+                element.addEventListener('click', this.handleAnchorClick);
+            }
         });
 
         this.boundClickableElements = elements;
@@ -279,9 +327,29 @@ class ModularMenu extends HTMLElement {
         this.boundClickableElements.forEach(element => {
             element.removeEventListener('mouseenter', this.handleHoverSound);
             element.removeEventListener('click', this.handleSelectSound);
+            if (element.tagName === 'A') {
+                element.removeEventListener('click', this.handleAnchorClick);
+            }
         });
 
         this.boundClickableElements = [];
+    }
+
+    handleMediaChange(event) {
+        this.isDesktop = Boolean(event.matches);
+        if (this.isDesktop) {
+            this.setAttribute('data-mode', 'desktop');
+        } else {
+            this.removeAttribute('data-mode');
+            this.setMenuOpen(false);
+        }
+    }
+
+    handleAnchorClick() {
+        if (this.isDesktop) {
+            return;
+        }
+        this.setMenuOpen(false);
     }
 }
 

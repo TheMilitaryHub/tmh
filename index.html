@@ -4,72 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>It works!</title>
-    <style>
-      :root {
-        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-        color: #f3f3f3;
-        background-color: #050505;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: flex-start;
-        background: radial-gradient(circle at top, #101010, #050505 70%);
-        gap: 2.5rem;
-        padding: 0 1.5rem 3rem;
-      }
-
-      main {
-        text-align: center;
-        max-width: 640px;
-        width: min(90vw, 640px);
-        padding: 3rem;
-        border: 1px solid #1f1f1f;
-        border-radius: 4px;
-        background-color: #fff;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
-        color: #222;
-        margin: 0 auto;
-      }
-
-      .info-panel {
-        max-width: 640px;
-        width: min(90vw, 640px);
-        text-align: center;
-        padding: 2rem;
-        border: 1px solid #1f1f1f;
-        border-radius: 4px;
-        background: rgba(255, 255, 255, 0.04);
-        backdrop-filter: blur(6px);
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-        margin: 0 auto;
-      }
-
-      h1 {
-        margin: 0 0 0.5rem;
-        font-size: 2rem;
-        letter-spacing: 0.04em;
-      }
-
-      p {
-        margin: 0.25rem 0;
-      }
-    </style>
+    <link rel="stylesheet" href="./styles/site.css" />
   </head>
-  <body>
+  <body class="page page--home">
     <modular-menu
       data-links='[
         {"label":"Home","href":"./index.html"},
         {"label":"About Us","href":"./aboutus.html"},
-        {"label":"Contact","href":"./contact.html"}
+        {"label":"Contact","href":"./contact.html"},
+        {"label":"Donate","href":"./donate.html"},
+        {"label":"Merch Store","href":"./shop.html"}
       ]'
     ></modular-menu>
 
-    <main id="home">
+    <main id="home" class="text-center">
       <h1>TMH</h1>
       <p>This is the default web page.</p>
       <p>YAY.</p>

@@ -4,99 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About TMH</title>
-    <style>
-      :root {
-        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-        color: #f3f3f3;
-        background-color: #050505;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: flex-start;
-        background: radial-gradient(circle at top, #101010, #050505 70%);
-        gap: 2.5rem;
-        padding: 0 1.5rem 3rem;
-      }
-
-      main {
-        text-align: center;
-        max-width: 720px;
-        width: min(92vw, 720px);
-        padding: 3rem;
-        border: 1px solid #1f1f1f;
-        border-radius: 20px;
-        background-color: #81613C;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
-        color: #222;
-        margin: 0 auto;
-      }
-
-      .info-panel {
-        max-width: 720px;
-        width: min(92vw, 720px);
-        text-align: left;
-        padding: 2rem;
-        border: 1px solid #1f1f1f;
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.04);
-        backdrop-filter: blur(6px);
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-        margin: 0 auto;
-      }
-
-      h1,
-      h2 {
-        letter-spacing: 0.04em;
-        margin-bottom: 0.75rem;
-      }
-
-      p {
-        margin: 0.4rem 0 1rem;
-        line-height: 1.6;
-      }
-
-      .team-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 1rem;
-        margin-top: 1.5rem;
-      }
-
-      .team-card {
-        background: rgba(255, 255, 255, 0.08);
-        padding: 1rem;
-        border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-
-      .team-card h3 {
-        margin: 0 0 0.25rem;
-        font-size: 1rem;
-        letter-spacing: 0.05em;
-      }
-
-      .team-card p {
-        margin: 0;
-        font-size: 0.9rem;
-        color: #d9d9d9;
-      }
-    </style>
+    <link rel="stylesheet" href="./styles/site.css" />
   </head>
-  <body>
+  <body class="page page--about">
     <modular-menu
       data-links='[
         {"label":"Home","href":"./index.html"},
-        {"label":"About","href":"#about"},
-        {"label":"Contact","href":"./contact.html"}
+        {"label":"About Us","href":"./aboutus.html"},
+        {"label":"Contact","href":"./contact.html"},
+        {"label":"Donate","href":"./donate.html"},
+        {"label":"Merch Store","href":"./shop.html"}
       ]'
     ></modular-menu>
 
-    <main id="about">
+    <main id="about" class="text-center">
       <h1>About TMH</h1>
       <p>
         TMH is a server for current and former servicemembers in
@@ -141,7 +62,7 @@
       </p>
       <p>
         Questions? Reach us at
-        <a href="mailto:support@themilitaryhub.org" style="color: #f4b400">support@themilitaryhub.org</a>
+        <a href="mailto:support@themilitaryhub.org">support@themilitaryhub.org</a>
       </p>
     </section>
 
