@@ -1,4 +1,6 @@
 const template = document.createElement('template');
+const UI_HOVER_SOUND_PATHS = ['./media/UI/Retro3.wav'];
+const UI_SELECT_SOUND_PATH = './media/UI/Retro10.wav';
 
 template.innerHTML = `
     <style>
@@ -174,6 +176,8 @@ class ModularMenu extends HTMLElement {
         this.boundClickableElements = [];
         this.isDesktop = false;
         this.handleMediaChange = this.handleMediaChange.bind(this);
+        this.hoverAudioElements = this.createHoverSoundPool();
+        this.selectAudioElement = this.createSelectSound();
 
         this.handleToggle = this.handleToggle.bind(this);
         this.handleHoverSound = this.handleHoverSound.bind(this);
@@ -218,12 +222,24 @@ class ModularMenu extends HTMLElement {
         this.menuToggleEl.setAttribute('aria-expanded', String(Boolean(isOpen)));
     }
 
-    handleHoverSound() {
-        this.playSound(this.getHoverSoundId());
+    handleHoverSound(event) {
+        if (!event || event.currentTarget?.tagName !== 'A') {
+            return;
+        }
+
+        if (!this.playHoverSoundFromPool()) {
+            this.playSound(this.getHoverSoundId());
+        }
     }
 
-    handleSelectSound() {
-        this.playSound(this.getSelectSoundId());
+    handleSelectSound(event) {
+        if (!event || event.currentTarget?.tagName !== 'A') {
+            return;
+        }
+
+        if (!this.playSelectSoundFromPool()) {
+            this.playSound(this.getSelectSoundId());
+        }
     }
 
     playSound(soundId) {
@@ -243,6 +259,65 @@ class ModularMenu extends HTMLElement {
 
     getSelectSoundId() {
         return this.getAttribute('select-sound-id') || 'selectSound';
+    }
+
+    createHoverSoundPool() {
+        if (typeof Audio === 'undefined') {
+            return [];
+        }
+
+        return UI_HOVER_SOUND_PATHS.map(src => {
+            const audio = new Audio(src);
+            audio.preload = 'auto';
+            return audio;
+        });
+    }
+
+    createSelectSound() {
+        if (typeof Audio === 'undefined') {
+            return null;
+        }
+        const audio = new Audio(UI_SELECT_SOUND_PATH);
+        audio.preload = 'auto';
+        return audio;
+    }
+
+    playHoverSoundFromPool() {
+        if (!this.hoverAudioElements.length) {
+            return false;
+        }
+
+        const audio = this.hoverAudioElements[0];
+
+        try {
+            audio.currentTime = 0;
+            const playAttempt = audio.play();
+            if (playAttempt && typeof playAttempt.catch === 'function') {
+                playAttempt.catch(() => {});
+            }
+            return true;
+        } catch (error) {
+            console.warn('[modular-menu] Unable to play hover sound:', error);
+            return false;
+        }
+    }
+
+    playSelectSoundFromPool() {
+        if (!this.selectAudioElement) {
+            return false;
+        }
+
+        try {
+            this.selectAudioElement.currentTime = 0;
+            const playAttempt = this.selectAudioElement.play();
+            if (playAttempt && typeof playAttempt.catch === 'function') {
+                playAttempt.catch(() => {});
+            }
+            return true;
+        } catch (error) {
+            console.warn('[modular-menu] Unable to play select sound:', error);
+            return false;
+        }
     }
 
     getLinksFromAttribute(attrName) {
