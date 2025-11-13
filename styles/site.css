@@ -206,6 +206,20 @@ button:hover {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
+.resource-card--center {
+  grid-column: 1 / -1;
+  justify-self: center;
+  max-width: min(600px, 100%);
+}
+
+@media (max-width: 600px) {
+  .resource-card--center {
+    grid-column: auto;
+    justify-self: stretch;
+    max-width: none;
+  }
+}
+
 .resource-card h3 {
   margin: 0 0 0.4rem;
   font-size: 1.05rem;
@@ -222,6 +236,129 @@ button:hover {
   transform: translateY(-4px) scale(1.04);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
   animation: resource-bounce 0.4s ease;
+}
+
+.info-panel--map {
+  width: min(96vw, 1024px);
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.us-map {
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  background: radial-gradient(circle at top, rgba(11, 18, 35, 0.85), rgba(3, 5, 12, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: clamp(0.75rem, 3vw, 1.25rem);
+  overflow: hidden;
+  min-height: 420px;
+}
+
+.us-map__svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.us-map__state {
+  fill: rgba(255, 255, 255, 0.08);
+  stroke: rgba(255, 255, 255, 0.25);
+  stroke-width: 0.6;
+  cursor: pointer;
+  transition: fill 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+}
+
+.us-map__state:hover,
+.us-map__state:focus-visible {
+  fill: rgba(46, 165, 255, 0.85);
+  filter: drop-shadow(0 0 10px rgba(46, 165, 255, 0.8));
+  outline: none;
+}
+
+.us-map__loader {
+  width: 100%;
+  min-height: 280px;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.us-map__error {
+  width: 100%;
+  min-height: 280px;
+  display: grid;
+  place-items: center;
+  color: #ff8a80;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.us-map__hint {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+.state-files-panel {
+  width: 100%;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: rgba(6, 10, 18, 0.8);
+  padding: 1rem;
+  color: #f5f5f5;
+}
+
+.state-files-panel__header {
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  margin-bottom: 0.35rem;
+}
+
+.state-files-panel__status {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.state-files-panel__empty {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  color: #ffb74d;
+}
+
+.state-files-panel__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 0.5rem;
+}
+
+.state-files-panel__label {
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.state-files-panel__form select {
+  width: 100%;
+}
+
+.state-files-panel__button {
+  width: 100%;
+  text-transform: none;
+  letter-spacing: 0.02em;
 }
 
 @keyframes resource-bounce {
@@ -355,6 +492,10 @@ body.page--shop #shop.stack {
 
   button {
     width: 100%;
+  }
+
+  .us-map {
+    min-height: 300px;
   }
 }
 
