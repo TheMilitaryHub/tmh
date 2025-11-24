@@ -21,10 +21,26 @@
       ]'
 ></modular-menu>
 
-<main id="home" class="text-center">
-    <h1>TMH</h1>
-    <p>This is the default web page.</p>
-    <p>YAY.</p>
+<main id="home" class="home-hero text-center">
+    <h1>Welcome to TMH</h1>
+
+    <div class="radial-shell">
+        <a class="radial-core" href="./index.html" aria-label="Return to TMH home">
+            <span class="radial-core__glow"></span>
+            <img src="./media/UI/tmh.png" alt="TMH emblem" class="radial-core__image" />
+        </a>
+
+        <nav class="radial-menu" aria-label="TMH primary navigation">
+            <a class="radial-item" style="--angle: -90deg; --delay: 0s;" href="./aboutus.html">About Us</a>
+            <a class="radial-item" style="--angle: -30deg; --delay: 0.25s;" href="./resources.html">Resources</a>
+            <a class="radial-item" style="--angle: 30deg; --delay: 0.5s;" href="./contact.html">Contact</a>
+            <a class="radial-item" style="--angle: 90deg; --delay: 0.75s;" href="./community.html">Community</a>
+            <a class="radial-item" style="--angle: 150deg; --delay: 1s;" href="./donate.html">Donate</a>
+            <a class="radial-item" style="--angle: 210deg; --delay: 1.25s;" href="./shop.html">Merch Store</a>
+        </nav>
+    </div>
+
+    <p class="hero-subtitle">Click any of the options to navigate the site or use the drop-down menu!.</p>
 </main>
 <script src="./scripts/menu-component.js"></script>
 </body>
