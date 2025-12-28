@@ -55,32 +55,133 @@
         For more details about what your donations can do for TMH, you can check <br>
         our full breakdown here. <!--Add a link when we have an official document certified !-->
     </p>
+    <p>
+        Donations are processed temporarily Venmo. Fill out the form below and you'll be redirected
+        to complete your contribution.
+    </p>
 </main>
 
-<form id="donateForm" class="card">
+<form id="donateForm" class="card" data-venmo-handle="cn1731">
     <div>
-        <label for="name1">First Name</label>
-        <input id="name1" name="name" type="text" required placeholder="First Name" />
+        <label for="donor-first-name">First Name</label>
+        <input id="donor-first-name" name="firstName" type="text" required placeholder="First Name" />
     </div>
     <div>
-        <label for="name2">Last Name</label>
-        <input id="name2" name="name" type="text" required placeholder="Last Name" />
+        <label for="donor-last-name">Last Name</label>
+        <input id="donor-last-name" name="lastName" type="text" required placeholder="Last Name" />
     </div>
     <div>
         <label for="email">Email</label>
         <input id="email" name="email" type="email" required placeholder="Email" />
     </div>
     <div>
-        <label for="paymentMethod">Payment Method:</label>
-        <select id="paymentMethod" name="paymentMethod">
-            <option value="cashapp">Cashapp</option>
-            <option value="paypal">Paypal</option>
-        </select>
+        <label for="donation-amount">Donation Amount (USD)</label>
+        <input
+            id="donation-amount"
+            name="amount"
+            type="number"
+            inputmode="decimal"
+            min="1"
+            step="0.01"
+            required
+            placeholder="25.00"
+        />
     </div>
-    <button type="submit">Send to Staff</button>
-    <p class="status" id="statusText"></p>
+    <div>
+        <label for="donation-message">Note (optional)</label>
+        <textarea id="donation-message" name="message" placeholder="Share a note for TMH."></textarea>
+    </div>
+    <p class="status" id="venmoHandleDisplay" aria-live="polite"></p>
+    <button type="submit">Continue to Venmo</button>
+    <p class="status" id="statusText" role="status" aria-live="polite"></p>
 </form>
 
 <script src="./scripts/menu-component.js"></script>
+<script>
+    (() => {
+        const form = document.getElementById("donateForm");
+        if (!form) {
+            return;
+        }
+
+        const status = document.getElementById("statusText");
+        const handleDisplay = document.getElementById("venmoHandleDisplay");
+        const firstNameInput = document.getElementById("donor-first-name");
+        const lastNameInput = document.getElementById("donor-last-name");
+        const emailInput = document.getElementById("email");
+        const amountInput = document.getElementById("donation-amount");
+        const messageInput = document.getElementById("donation-message");
+
+        const updateStatus = (message, variant) => {
+            if (!status) {
+                return;
+            }
+            status.textContent = message;
+            status.className = variant ? `status ${variant}` : "status";
+        };
+
+        const normalizeHandle = (handle) => handle.replace(/^@/, "");
+        const rawHandle = form.dataset.venmoHandle ? form.dataset.venmoHandle.trim() : "";
+        const venmoHandle = rawHandle ? normalizeHandle(rawHandle) : "";
+
+        if (handleDisplay) {
+            handleDisplay.textContent = venmoHandle
+                ? `Venmo: @${venmoHandle}`
+                : "Venmo handle not set yet. Update this page with your handle.";
+        }
+
+        const buildNote = ({ firstName, lastName, email, message }) => {
+            const identity = [firstName, lastName].filter(Boolean).join(" ").trim();
+            const parts = ["TMH Donation"];
+            if (identity) {
+                parts.push(identity);
+            }
+            if (email) {
+                parts.push(email);
+            }
+            if (message) {
+                parts.push(message);
+            }
+
+            let note = parts.join(" - ");
+            if (note.length > 240) {
+                note = `${note.slice(0, 237)}...`;
+            }
+            return note;
+        };
+
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            updateStatus("", "");
+
+            if (!venmoHandle) {
+                updateStatus("Venmo handle missing. Please update the form configuration.", "error");
+                return;
+            }
+
+            const amountValue = amountInput ? Number.parseFloat(amountInput.value) : NaN;
+            if (!Number.isFinite(amountValue) || amountValue <= 0) {
+                updateStatus("Enter a valid donation amount.", "error");
+                return;
+            }
+
+            const note = buildNote({
+                firstName: firstNameInput ? firstNameInput.value.trim() : "",
+                lastName: lastNameInput ? lastNameInput.value.trim() : "",
+                email: emailInput ? emailInput.value.trim() : "",
+                message: messageInput ? messageInput.value.trim() : ""
+            });
+
+            const venmoUrl = new URL("https://venmo.com/");
+            venmoUrl.searchParams.set("txn", "pay");
+            venmoUrl.searchParams.set("recipients", venmoHandle);
+            venmoUrl.searchParams.set("amount", amountValue.toFixed(2));
+            venmoUrl.searchParams.set("note", note);
+
+            updateStatus("Redirecting to Venmo...", "success");
+            window.location.href = venmoUrl.toString();
+        });
+    })();
+</script>
 </body>
 </html>
