@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <title>Resources</title>
+    <link rel="stylesheet" href="./styles/vendor/leaflet.css" />
     <link rel="stylesheet" href="./styles/site.css" />
 </head>
 <body class="page page--resources">
@@ -27,13 +28,7 @@
         </p>
         <div class="resource-grid">
             <article class="resource-card">
-                <h3><a href="#resources-tmh">TMH</a></h3>
-            </article>
-            <article class="resource-card">
                 <h3><a href="#resources-transition">Transition</a></h3>
-            </article>
-            <article class="resource-card">
-                <h3><a href="#state-resources">State Resource Map</a></h3>
             </article>
             <article class="resource-card">
                 <h3><a href="#resources-crisis">Crisis</a></h3>
@@ -44,59 +39,20 @@
             <article class="resource-card">
                 <h3><a href="#resources-advocacy">Advocacy</a></h3>
             </article>
-            <article class="resource-card resource-card--center">
+            <article class="resource-card">
                 <h3><a href="#resources-education">Education</a></h3>
+            </article>
+            <article class="resource-card">
+                <h3><a href="#state-resources">State Resource Map</a></h3>
             </article>
         </div>
     </main>
 
-    <section class="info-panel" id="resources-tmh">
-        <h4 class="text-center">TMH Resources</h4>
-        <p>
-            Board Meeting Notes <br>
-            Codes and By-Laws <br>
-            990s <br>
-            Other TMH Documents <br>
-        </p>
-    </section>
-
-    <section class="info-panel" id="resources-transition">
+<section class="info-panel" id="resources-transition">
         <h4 class="text-center">Transition Resources</h4>
         <p>
             <a href="https://wpath.org/publications/soc8">WPATH</a><br>
             <a href="https://www.endocrine.org/advocacy/position-statements/transgender-health">Endocrine Society</a><br>
-            Federal Resources <br>
-        </p>
-    </section>
-
-    <section class="info-panel info-panel--map" id="state-resources">
-        <h4 class="text-center">State Resource Map</h4>
-        <p class="text-center">
-            Hover over any state to highlight it in blue. Click a state then scroll down to the dropdown menu to view files.
-        </p>
-        <div class="us-map" data-role="state-map">
-            <div class="us-map__loader">Loading interactive map...</div>
-        </div>
-        <div class="state-files-panel hidden" data-role="state-files-panel">
-            <div class="state-files-panel__header">
-                <span data-role="state-files-name">State Resources</span>
-            </div>
-            <p class="state-files-panel__status" data-role="state-files-status">
-                Select a state to see available files.
-            </p>
-            <div class="state-files-panel__empty hidden" data-role="state-files-empty">
-                No files have been added for this state yet.
-            </div>
-            <div class="state-files-panel__form hidden" data-role="state-files-form">
-                <label class="state-files-panel__label" for="state-file-select">Files</label>
-                <select id="state-file-select" data-role="state-file-select"></select>
-                <button type="button" class="state-files-panel__button" data-role="state-file-open">
-                    Open file
-                </button>
-            </div>
-        </div>
-        <p class="us-map__hint text-center">
-            Need Alaska or Hawaii? We got it towards the bottom, with PR in the bottom right corner.
         </p>
     </section>
 
@@ -121,12 +77,12 @@
     <section class="info-panel" id="resources-advocacy">
         <h4 class="text-center">Other Trans Advocacy Groups</h4>
         <p>
-            <a href="https://spartapride.org">SPARTa Pride</a><br>
-            <a href="https://modernmilitary.org">Modern Military Associate of America</a><br>
-            <a href="https://transequality.org">National Center for Transgender Equality</a><br>
+            <a href="https://spartapride.org">SPARTA Pride</a><br>
+            <a href="https://transequality.org">Advocates for Trans Equality</a><br>
             <a href="https://www.transveteran.org">Transgender American Veterans Association</a><br>
             <a href="https://www.aclu.org/issues/lgbtq-rights">American Civil Liberties Union</a><br>
             <a href="https://www.hrc.org/resources/transgender">Human Rights Campaign</a><br>
+            <a href="https://modernmilitary.org">Modern Military Association of America</a><br>
         </p>
     </section>
 
@@ -139,9 +95,59 @@
         </p>
     </section>
 
+    <section class="info-panel info-panel--map" id="state-resources">
+        <h4 class="text-center">State Resource Map</h4>
+        <p class="text-center">
+            Hover over any state to highlight it in blue. Click a state then scroll down to the dropdown menu to view files.
+        </p>
+        <div
+            class="us-map"
+            data-role="state-map"
+            data-map-geojson="./data/us-states.json"
+            data-map-kml="./data/state-resources.kml"
+            data-map-mode="replace"
+        >
+            <div class="us-map__canvas" data-role="state-map-canvas"></div>
+            <div class="us-map__loader">Loading interactive map...</div>
+            <div class="us-map__controls" aria-label="Map zoom controls">
+                <button type="button" class="us-map__control" data-role="map-zoom-in" aria-label="Zoom in">
+                    +
+                </button>
+                <button type="button" class="us-map__control" data-role="map-zoom-out" aria-label="Zoom out">
+                    -
+                </button>
+                <button type="button" class="us-map__control" data-role="map-zoom-reset" aria-label="Reset zoom">
+                    Reset
+                </button>
+            </div>
+        </div>
+        <div class="state-files-panel hidden" data-role="state-files-panel">
+            <div class="state-files-panel__header">
+                <span data-role="state-files-name">State Resources</span>
+            </div>
+            <p class="state-files-panel__status" data-role="state-files-status">
+                Select a state to see available files.
+            </p>
+            <div class="state-files-panel__empty hidden" data-role="state-files-empty">
+                No files have been added for this state yet.
+            </div>
+            <div class="state-files-panel__form hidden" data-role="state-files-form">
+                <label class="state-files-panel__label" for="state-file-select">Files</label>
+                <select id="state-file-select" data-role="state-file-select"></select>
+                <button type="button" class="state-files-panel__button" data-role="state-file-open">
+                    Open file
+                </button>
+            </div>
+        </div>
+        <p class="us-map__hint text-center">
+            Need Alaska or Hawaii? We got it towards the bottom, with PR in the bottom right corner.
+        </p>
+    </section>
+
     <script src="./scripts/menu-component.js"></script>
     <script src="./scripts/us-state-paths.js"></script>
     <script src="./scripts/state-resource-files.js"></script>
+    <script src="./scripts/vendor/leaflet.js"></script>
     <script src="./scripts/state-map.js"></script>
 </body>
 </html>

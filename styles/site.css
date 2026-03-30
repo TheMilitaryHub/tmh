@@ -258,10 +258,32 @@ button:hover {
   min-height: 420px;
 }
 
+.us-map__canvas {
+  width: 100%;
+  height: clamp(360px, 55vw, 520px);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.leaflet-container {
+  background: transparent;
+  font: inherit;
+}
+
 .us-map__svg {
   width: 100%;
   height: auto;
   display: block;
+  cursor: grab;
+  touch-action: none;
+}
+
+.us-map__svg.is-panning {
+  cursor: grabbing;
+}
+
+.us-map__layer {
+  transform-origin: 0 0;
 }
 
 .us-map__state {
@@ -270,12 +292,71 @@ button:hover {
   stroke-width: 0.6;
   cursor: pointer;
   transition: fill 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+  vector-effect: non-scaling-stroke;
+}
+
+.leaflet-container .us-map__state {
+  transition: fill 0.2s ease, stroke 0.2s ease, filter 0.2s ease;
+}
+
+.leaflet-container .us-map__state.is-hovered {
+  filter: drop-shadow(0 0 10px rgba(46, 165, 255, 0.8));
 }
 
 .us-map__state:hover,
 .us-map__state:focus-visible {
   fill: rgba(46, 165, 255, 0.85);
   filter: drop-shadow(0 0 10px rgba(46, 165, 255, 0.8));
+  outline: none;
+}
+
+.us-map__overlay-layer {
+  pointer-events: none;
+}
+
+.us-map__overlay {
+  fill: rgba(244, 180, 0, 0.2);
+  stroke: rgba(244, 180, 0, 0.5);
+  stroke-width: 0.8;
+  vector-effect: non-scaling-stroke;
+}
+
+.us-map__overlay--line {
+  fill: none;
+  stroke-width: 1.2;
+}
+
+.us-map__marker {
+  opacity: 0.95;
+  filter: drop-shadow(0 0 6px rgba(46, 165, 255, 0.35));
+}
+
+.us-map__controls {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  display: grid;
+  gap: 0.45rem;
+  z-index: 2;
+}
+
+.us-map__control {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(9, 12, 22, 0.75);
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.us-map__control:hover,
+.us-map__control:focus-visible {
+  background: rgba(46, 165, 255, 0.25);
+  border-color: rgba(46, 165, 255, 0.55);
   outline: none;
 }
 
@@ -289,6 +370,11 @@ button:hover {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-size: 0.85rem;
+  position: absolute;
+  inset: clamp(0.75rem, 3vw, 1.25rem);
+  background: rgba(3, 5, 12, 0.85);
+  border-radius: 14px;
+  z-index: 1;
 }
 
 .us-map__error {
@@ -439,13 +525,13 @@ body.page--shop #shop.stack {
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 18px;
   padding: 0.85rem;
-  background: rgba(255, 255, 255, 0.9);
-  color: #111;
+  background: linear-gradient(135deg, rgba(10, 10, 10, 0.95), rgba(30, 30, 30, 0.85));
+  color: #f3f3f3;
   text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .shop-card img {
@@ -453,17 +539,19 @@ body.page--shop #shop.stack {
   aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .shop-card span {
   font-weight: 600;
   letter-spacing: 0.03em;
+  color: #f4b400;
 }
 
 .shop-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  animation: resource-bounce 0.4s ease;
 }
 
 body.page--home {
