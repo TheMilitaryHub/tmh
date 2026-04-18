@@ -1,6 +1,4 @@
 const template = document.createElement('template');
-const UI_HOVER_SOUND_PATHS = ['./media/UI/Retro3.wav'];
-const UI_SELECT_SOUND_PATH = './media/UI/Retro10.wav';
 
 template.innerHTML = `
     <style>
@@ -176,12 +174,8 @@ class ModularMenu extends HTMLElement {
         this.boundClickableElements = [];
         this.isDesktop = false;
         this.handleMediaChange = this.handleMediaChange.bind(this);
-        this.hoverAudioElements = this.createHoverSoundPool();
-        this.selectAudioElement = this.createSelectSound();
 
         this.handleToggle = this.handleToggle.bind(this);
-        this.handleHoverSound = this.handleHoverSound.bind(this);
-        this.handleSelectSound = this.handleSelectSound.bind(this);
         this.handleAnchorClick = this.handleAnchorClick.bind(this);
     }
 
@@ -195,7 +189,7 @@ class ModularMenu extends HTMLElement {
 
     disconnectedCallback() {
         this.menuToggleEl.removeEventListener('click', this.handleToggle);
-        this.detachSoundHandlers();
+        this.detachClickHandlers();
         if (this.desktopMedia) {
             this.desktopMedia.removeEventListener('change', this.handleMediaChange);
         }
@@ -220,104 +214,6 @@ class ModularMenu extends HTMLElement {
         this.menuOptionsEl.classList.toggle('show', isOpen);
         this.menuToggleEl.classList.toggle('flipped', isOpen);
         this.menuToggleEl.setAttribute('aria-expanded', String(Boolean(isOpen)));
-    }
-
-    handleHoverSound(event) {
-        if (!event || event.currentTarget?.tagName !== 'A') {
-            return;
-        }
-
-        if (!this.playHoverSoundFromPool()) {
-            this.playSound(this.getHoverSoundId());
-        }
-    }
-
-    handleSelectSound(event) {
-        if (!event || event.currentTarget?.tagName !== 'A') {
-            return;
-        }
-
-        if (!this.playSelectSoundFromPool()) {
-            this.playSound(this.getSelectSoundId());
-        }
-    }
-
-    playSound(soundId) {
-        if (!soundId) {
-            return;
-        }
-        const audio = document.getElementById(soundId);
-        if (audio) {
-            audio.currentTime = 0;
-            audio.play();
-        }
-    }
-
-    getHoverSoundId() {
-        return this.getAttribute('hover-sound-id') || 'beepSound';
-    }
-
-    getSelectSoundId() {
-        return this.getAttribute('select-sound-id') || 'selectSound';
-    }
-
-    createHoverSoundPool() {
-        if (typeof Audio === 'undefined') {
-            return [];
-        }
-
-        return UI_HOVER_SOUND_PATHS.map(src => {
-            const audio = new Audio(src);
-            audio.preload = 'auto';
-            return audio;
-        });
-    }
-
-    createSelectSound() {
-        if (typeof Audio === 'undefined') {
-            return null;
-        }
-        const audio = new Audio(UI_SELECT_SOUND_PATH);
-        audio.preload = 'auto';
-        return audio;
-    }
-
-    playHoverSoundFromPool() {
-        if (!this.hoverAudioElements.length) {
-            return false;
-        }
-
-        const audio = this.hoverAudioElements[0];
-
-        try {
-            audio.currentTime = 0;
-            const playAttempt = audio.play();
-            if (playAttempt && typeof playAttempt.catch === 'function') {
-                playAttempt.catch(() => {});
-            }
-            return true;
-        } catch (error) {
-            console.warn('[modular-menu] Unable to play hover sound:', error);
-            return false;
-        }
-    }
-
-    playSelectSoundFromPool() {
-        if (!this.selectAudioElement) {
-            return false;
-        }
-
-        try {
-            this.selectAudioElement.currentTime = 0;
-            const playAttempt = this.selectAudioElement.play();
-            if (playAttempt && typeof playAttempt.catch === 'function') {
-                playAttempt.catch(() => {});
-            }
-            return true;
-        } catch (error) {
-            console.warn('[modular-menu] Unable to play select sound:', error);
-            return false;
-        }
     }
 
     getLinksFromAttribute(attrName) {
@@ -372,39 +268,28 @@ class ModularMenu extends HTMLElement {
 
         this.setMenuOpen(false);
 
-        this.attachSoundHandlers();
+        this.attachClickHandlers();
     }
 
-    attachSoundHandlers() {
-        this.detachSoundHandlers();
+    attachClickHandlers() {
+        this.detachClickHandlers();
 
-        const elements = [
-            this.menuToggleEl,
-            ...this.menuOptionsEl.querySelectorAll('a')
-        ].filter(Boolean);
+        const anchors = [...this.menuOptionsEl.querySelectorAll('a')].filter(Boolean);
 
-        elements.forEach(element => {
-            element.addEventListener('mouseenter', this.handleHoverSound);
-            element.addEventListener('click', this.handleSelectSound);
-            if (element.tagName === 'A') {
-                element.addEventListener('click', this.handleAnchorClick);
-            }
+        anchors.forEach(anchor => {
+            anchor.addEventListener('click', this.handleAnchorClick);
         });
 
-        this.boundClickableElements = elements;
+        this.boundClickableElements = anchors;
     }
 
-    detachSoundHandlers() {
+    detachClickHandlers() {
         if (!this.boundClickableElements.length) {
             return;
         }
 
         this.boundClickableElements.forEach(element => {
-            element.removeEventListener('mouseenter', this.handleHoverSound);
-            element.removeEventListener('click', this.handleSelectSound);
-            if (element.tagName === 'A') {
-                element.removeEventListener('click', this.handleAnchorClick);
-            }
+            element.removeEventListener('click', this.handleAnchorClick);
         });
 
         this.boundClickableElements = [];
