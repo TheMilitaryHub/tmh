@@ -33,13 +33,16 @@
     }
 
     let baseFeatures = null;
+    let rawStateGeoJson = null;
     let overlayFeatures = null;
     const useKmlAsBase = kmlFeatures && kmlFeatures.length && mapMode === 'replace';
 
     if (useKmlAsBase) {
       baseFeatures = kmlFeatures;
     } else {
-      baseFeatures = await loadGeoJsonSafe(geojsonSrc);
+      const geoJsonResult = await loadGeoJsonSafe(geojsonSrc);
+      baseFeatures = geoJsonResult ? geoJsonResult.features : null;
+      rawStateGeoJson = geoJsonResult ? geoJsonResult.raw : null;
       overlayFeatures = kmlFeatures && kmlFeatures.length ? kmlFeatures : null;
     }
 
@@ -74,6 +77,10 @@
     }
 
     initControls(mount, map, bounds);
+
+    const kmlPointFeatures = kmlFeatures ? kmlFeatures.filter((f) => f && f.geometryType === 'point') : [];
+    const stateMarkersIndex = buildStateMarkersIndex(kmlPointFeatures, rawStateGeoJson);
+    initStateSearch(stateMarkersIndex);
 
     const loader = mount.querySelector('.us-map__loader');
     if (loader) loader.remove();
@@ -182,6 +189,16 @@
         onEachFeature: (feature, layer) => {
           if (feature.geometry && feature.geometry.type === 'Point' && feature.properties && feature.properties.name) {
             layer.bindTooltip(feature.properties.name, { sticky: true });
+            layer.on('click', () => {
+              const { lat, lng } = feature.properties;
+              if (lat != null && lng != null) {
+                window.open(
+                  `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
+                  '_blank',
+                  'noopener noreferrer'
+                );
+              }
+            });
           }
         }
       });
@@ -260,7 +277,9 @@
         type: 'Feature',
         properties: {
           name: feature.name || 'Location',
-          icon: feature.icon || null
+          icon: feature.icon || null,
+          lat: feature.coordinates[1],
+          lng: feature.coordinates[0]
         },
         geometry: {
           type: 'Point',
@@ -596,7 +615,7 @@
         }
         return response.json();
       })
-      .then((data) => geoJsonToFeatures(data))
+      .then((data) => ({ features: geoJsonToFeatures(data), raw: data }))
       .catch((error) => {
         console.warn('GeoJSON map data failed to load', error);
         return null;
@@ -944,6 +963,87 @@
     anchor.setAttribute('rel', 'noopener');
     document.body.appendChild(anchor);
     return anchor;
+  }
+
+  function pointInPolygon(lon, lat, ring) {
+    let inside = false;
+    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      const xi = ring[i][0], yi = ring[i][1];
+      const xj = ring[j][0], yj = ring[j][1];
+      if (((yi > lat) !== (yj > lat)) && (lon < (xj - xi) * (lat - yi) / (yj - yi) + xi)) {
+        inside = !inside;
+      }
+    }
+    return inside;
+  }
+
+  function findStateForPoint(lon, lat, rawGeoJson) {
+    if (!rawGeoJson || !Array.isArray(rawGeoJson.features)) return null;
+    for (const feature of rawGeoJson.features) {
+      if (!feature || !feature.geometry) continue;
+      const name = feature.properties && feature.properties.name;
+      if (!name) continue;
+      const { type, coordinates } = feature.geometry;
+      if (type === 'Polygon') {
+        if (pointInPolygon(lon, lat, coordinates[0])) return name;
+      } else if (type === 'MultiPolygon') {
+        for (const polygon of coordinates) {
+          if (pointInPolygon(lon, lat, polygon[0])) return name;
+        }
+      }
+    }
+    return null;
+  }
+
+  function buildStateMarkersIndex(kmlFeatures, rawGeoJson) {
+    const index = {};
+    kmlFeatures
+      .filter((f) => f && f.geometryType === 'point' && f.coordinates)
+      .forEach((f) => {
+        const lon = f.coordinates[0];
+        const lat = f.coordinates[1];
+        const state = findStateForPoint(lon, lat, rawGeoJson);
+        if (!state) return;
+        if (!index[state]) index[state] = [];
+        index[state].push({ name: f.name || 'Location', lat, lng: lon });
+      });
+    return index;
+  }
+
+  function initStateSearch(stateMarkersIndex) {
+    const panel = document.querySelector('[data-role="state-search-panel"]');
+    if (!panel) return;
+    const selectEl = panel.querySelector('[data-role="state-search-select"]');
+    const resultsList = panel.querySelector('[data-role="state-search-results"]');
+    if (!selectEl || !resultsList) return;
+
+    const states = Object.keys(stateMarkersIndex).sort();
+    states.forEach((state) => {
+      const option = document.createElement('option');
+      option.value = state;
+      const count = stateMarkersIndex[state].length;
+      option.textContent = `${state} (${count} location${count === 1 ? '' : 's'})`;
+      selectEl.appendChild(option);
+    });
+
+    selectEl.addEventListener('change', () => {
+      const selectedState = selectEl.value;
+      resultsList.innerHTML = '';
+      if (!selectedState) return;
+      const markers = (stateMarkersIndex[selectedState] || [])
+        .slice()
+        .sort((a, b) => a.name.localeCompare(b.name));
+      markers.forEach((marker) => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = `https://www.google.com/maps/search/?api=1&query=${marker.lat},${marker.lng}`;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = marker.name;
+        li.appendChild(a);
+        resultsList.appendChild(li);
+      });
+    });
   }
 
   function setMapError(mount, message) {

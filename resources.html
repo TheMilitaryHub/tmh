@@ -142,6 +142,16 @@
         <p class="us-map__hint text-center">
             Need Alaska or Hawaii? We got it towards the bottom, with PR in the bottom right corner.
         </p>
+        <div class="state-search-panel" data-role="state-search-panel">
+            <div class="state-search-panel__header">Find Resources by State</div>
+            <div class="state-search-panel__controls">
+                <label class="state-search-panel__label" for="state-search-select">Select a state</label>
+                <select id="state-search-select" data-role="state-search-select">
+                    <option value="">-- Select a state --</option>
+                </select>
+            </div>
+            <ul class="state-search-results" data-role="state-search-results"></ul>
+        </div>
     </section>
 
     <script src="./scripts/menu-component.js"></script>
