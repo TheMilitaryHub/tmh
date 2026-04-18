@@ -62,13 +62,13 @@
     map.setMaxBounds(bounds.pad(0.2));
 
     if (useKmlAsBase) {
-      const baseOverlay = createOverlayLayer(baseProjection);
+      const baseOverlay = createOverlayLayer(baseProjection, viewBox.height);
       baseOverlay.addTo(map);
     } else {
-      const stateLayer = createStateLayer(baseProjection.geojson, panelApi, filesData);
+      const stateLayer = createStateLayer(baseProjection.geojson, panelApi, filesData, viewBox.height);
       stateLayer.addTo(map);
       if (overlayProjection) {
-        const overlayLayer = createOverlayLayer(overlayProjection);
+        const overlayLayer = createOverlayLayer(overlayProjection, viewBox.height);
         overlayLayer.addTo(map);
       }
     }
@@ -110,7 +110,7 @@
     }
   }
 
-  function createStateLayer(geojson, panelApi, filesData) {
+  function createStateLayer(geojson, panelApi, filesData, viewBoxHeight) {
     const defaultStyle = {
       className: 'us-map__state',
       color: 'rgba(255, 255, 255, 0.25)',
@@ -127,6 +127,7 @@
 
     let stateLayer = null;
     stateLayer = L.geoJSON(geojson, {
+      coordsToLatLng: (c) => L.latLng(viewBoxHeight - c[1], c[0]),
       style: defaultStyle,
       onEachFeature: (feature, layer) => {
         const name = feature && feature.properties ? feature.properties.name : 'State';
@@ -153,11 +154,12 @@
     return stateLayer;
   }
 
-  function createOverlayLayer(projection) {
+  function createOverlayLayer(projection, viewBoxHeight) {
     const group = L.layerGroup();
 
     if (projection.geojson && projection.geojson.features.length) {
       const overlayLayer = L.geoJSON(projection.geojson, {
+        coordsToLatLng: (c) => L.latLng(viewBoxHeight - c[1], c[0]),
         style: (feature) => {
           const type = feature.geometry ? feature.geometry.type : '';
           if (type === 'LineString' || type === 'MultiLineString') {
@@ -177,14 +179,22 @@
           };
         },
         pointToLayer: (feature, latlng) => buildOverlayMarker(feature, latlng),
-        interactive: false
+        onEachFeature: (feature, layer) => {
+          if (feature.geometry && feature.geometry.type === 'Point' && feature.properties && feature.properties.name) {
+            layer.bindTooltip(feature.properties.name, { sticky: true });
+          }
+        }
       });
       group.addLayer(overlayLayer);
     }
 
     if (projection.images && projection.images.length) {
       projection.images.forEach((image) => {
-        const overlay = L.imageOverlay(image.href, image.bounds, { interactive: false });
+        const flippedBounds = [
+          [viewBoxHeight - image.bounds[1][0], image.bounds[0][1]],
+          [viewBoxHeight - image.bounds[0][0], image.bounds[1][1]]
+        ];
+        const overlay = L.imageOverlay(image.href, flippedBounds, { interactive: false });
         group.addLayer(overlay);
       });
     }
@@ -203,7 +213,7 @@
         iconAnchor: [size / 2, size / 2],
         className: 'us-map__marker'
       });
-      return L.marker(latlng, { icon, interactive: false });
+      return L.marker(latlng, { icon });
     }
     return L.circleMarker(latlng, {
       radius: 5,
@@ -211,8 +221,7 @@
       fillColor: 'rgba(244, 180, 0, 0.65)',
       fillOpacity: 0.9,
       weight: 1,
-      className: 'us-map__marker',
-      interactive: false
+      className: 'us-map__marker'
     });
   }
 
