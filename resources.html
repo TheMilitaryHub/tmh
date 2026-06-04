@@ -6,6 +6,8 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <title>TMH | Resources</title>
     <link rel="stylesheet" href="./styles/vendor/leaflet.css" />
+    <link rel="stylesheet" href="./styles/vendor/MarkerCluster.css" />
+    <link rel="stylesheet" href="./styles/vendor/MarkerCluster.Default.css" />
     <link rel="stylesheet" href="./styles/site.css" />
 </head>
 <body class="page page--resources">
@@ -105,8 +107,7 @@
             class="us-map"
             data-role="state-map"
             data-map-geojson="./data/us-states.json"
-            data-map-kml="./data/state-resources.kml"
-            data-map-mode="overlay"
+            data-map-markers="./data/map-markers.json"
         >
             <div class="us-map__canvas" data-role="state-map-canvas"></div>
             <div class="us-map__loader">Loading interactive map...</div>
@@ -155,10 +156,11 @@
         </div>
     </section>
 
-    <script src="./scripts/menu-component.js"></script>
-    <script src="./scripts/us-state-paths.js"></script>
-    <script src="./scripts/state-resource-files.js"></script>
-    <script src="./scripts/vendor/leaflet.js"></script>
-    <script src="./scripts/state-map.js"></script>
+    <script defer src="./scripts/menu-component.js"></script>
+    <script defer src="./scripts/us-state-paths.js"></script>
+    <script defer src="./scripts/state-resource-files.js"></script>
+    <script defer src="./scripts/vendor/leaflet.js"></script>
+    <script defer src="./scripts/vendor/leaflet.markercluster.js"></script>
+    <script defer src="./scripts/state-map.js"></script>
 </body>
 </html>

@@ -14,7 +14,21 @@
     const panelApi = createStateFilesPanel();
     if (!mapMount || !mapCanvas) return;
 
-    initLeafletMap(mapMount, mapCanvas, panelApi, stateFilesData);
+    if ('IntersectionObserver' in window) {
+      let initialized = false;
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (initialized || !entries[0].isIntersecting) return;
+          initialized = true;
+          observer.disconnect();
+          initLeafletMap(mapMount, mapCanvas, panelApi, stateFilesData);
+        },
+        { rootMargin: '200px' }
+      );
+      observer.observe(mapMount);
+    } else {
+      initLeafletMap(mapMount, mapCanvas, panelApi, stateFilesData);
+    }
   });
 
   async function initLeafletMap(mount, canvas, panelApi, filesData) {
@@ -23,28 +37,15 @@
       return;
     }
 
-    const mapMode = (mount.dataset.mapMode || 'overlay').toLowerCase();
     const geojsonSrc = mount.dataset.mapGeojson || './data/us-states.json';
-    const kmlSrc = mount.dataset.mapKml || '';
+    const markersSrc = mount.dataset.mapMarkers || '';
 
-    let kmlFeatures = null;
-    if (kmlSrc) {
-      kmlFeatures = await loadKmlSafe(kmlSrc);
-    }
+    const [geoJsonResult, markersData] = await Promise.all([
+      loadGeoJsonSafe(geojsonSrc),
+      markersSrc ? loadMarkersSafe(markersSrc) : Promise.resolve(null)
+    ]);
 
-    let baseFeatures = null;
-    let rawStateGeoJson = null;
-    let overlayFeatures = null;
-    const useKmlAsBase = kmlFeatures && kmlFeatures.length && mapMode === 'replace';
-
-    if (useKmlAsBase) {
-      baseFeatures = kmlFeatures;
-    } else {
-      const geoJsonResult = await loadGeoJsonSafe(geojsonSrc);
-      baseFeatures = geoJsonResult ? geoJsonResult.features : null;
-      rawStateGeoJson = geoJsonResult ? geoJsonResult.raw : null;
-      overlayFeatures = kmlFeatures && kmlFeatures.length ? kmlFeatures : null;
-    }
+    const baseFeatures = geoJsonResult ? geoJsonResult.features : null;
 
     if (!baseFeatures || !baseFeatures.length) {
       setMapError(mount, 'Unable to load the map right now.');
@@ -54,7 +55,6 @@
     const viewBox = DEFAULT_VIEWBOX;
     const projectionContext = createProjectionContext(baseFeatures, viewBox);
     const baseProjection = projectFeatures(baseFeatures, projectionContext);
-    const overlayProjection = overlayFeatures ? projectFeatures(overlayFeatures, projectionContext, true) : null;
 
     const map = createLeafletMap(canvas, viewBox);
     const bounds = L.latLngBounds(
@@ -64,22 +64,17 @@
     map.fitBounds(bounds, { animate: false });
     map.setMaxBounds(bounds.pad(0.2));
 
-    if (useKmlAsBase) {
-      const baseOverlay = createOverlayLayer(baseProjection, viewBox.height);
-      baseOverlay.addTo(map);
-    } else {
-      const stateLayer = createStateLayer(baseProjection.geojson, panelApi, filesData, viewBox.height);
-      stateLayer.addTo(map);
-      if (overlayProjection) {
-        const overlayLayer = createOverlayLayer(overlayProjection, viewBox.height);
-        overlayLayer.addTo(map);
-      }
+    const stateLayer = createStateLayer(baseProjection.geojson, panelApi, filesData, viewBox.height);
+    stateLayer.addTo(map);
+
+    if (markersData && markersData.length) {
+      const markerLayer = createMarkerLayer(markersData, projectionContext, viewBox.height);
+      markerLayer.addTo(map);
     }
 
     initControls(mount, map, bounds);
 
-    const kmlPointFeatures = kmlFeatures ? kmlFeatures.filter((f) => f && f.geometryType === 'point') : [];
-    const stateMarkersIndex = buildStateMarkersIndex(kmlPointFeatures, rawStateGeoJson);
+    const stateMarkersIndex = buildStateMarkersIndexFromJson(markersData || []);
     initStateSearch(stateMarkersIndex);
 
     const loader = mount.querySelector('.us-map__loader');
@@ -161,85 +156,51 @@
     return stateLayer;
   }
 
-  function createOverlayLayer(projection, viewBoxHeight) {
-    const group = L.layerGroup();
+  function createMarkerLayer(markers, projectionContext, viewBoxHeight) {
+    const layer = window.L.markerClusterGroup
+      ? L.markerClusterGroup({
+          maxClusterRadius: 40,
+          disableClusteringAtZoom: 3,
+          spiderfyOnMaxZoom: true,
+          showCoverageOnHover: false
+        })
+      : L.layerGroup();
 
-    if (projection.geojson && projection.geojson.features.length) {
-      const overlayLayer = L.geoJSON(projection.geojson, {
-        coordsToLatLng: (c) => L.latLng(viewBoxHeight - c[1], c[0]),
-        style: (feature) => {
-          const type = feature.geometry ? feature.geometry.type : '';
-          if (type === 'LineString' || type === 'MultiLineString') {
-            return {
-              className: 'us-map__overlay us-map__overlay--line',
-              color: 'rgba(244, 180, 0, 0.5)',
-              weight: 1.2,
-              opacity: 0.9
-            };
-          }
-          return {
-            className: 'us-map__overlay',
-            color: 'rgba(244, 180, 0, 0.5)',
-            weight: 0.8,
-            fillColor: 'rgba(244, 180, 0, 0.2)',
-            fillOpacity: 0.45
-          };
-        },
-        pointToLayer: (feature, latlng) => buildOverlayMarker(feature, latlng),
-        onEachFeature: (feature, layer) => {
-          if (feature.geometry && feature.geometry.type === 'Point' && feature.properties && feature.properties.name) {
-            layer.bindTooltip(feature.properties.name, { sticky: true });
-            layer.on('click', () => {
-              const { lat, lng } = feature.properties;
-              if (lat != null && lng != null) {
-                window.open(
-                  `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`,
-                  '_blank',
-                  'noopener noreferrer'
-                );
-              }
-            });
-          }
-        }
+    const iconSize = 22;
+    const iconCache = {};
+
+    markers.forEach((marker) => {
+      const region = inferRegionFromLatLon(marker.lng, marker.lat);
+      const transform = projectionContext.regionTransforms[region];
+      const projected = projectLatLng([marker.lng, marker.lat], projectionContext.project, transform);
+      if (!projected) return;
+
+      const latlng = L.latLng(viewBoxHeight - projected[1], projected[0]);
+
+      const iconIdx = marker.i || 1;
+      if (!iconCache[iconIdx]) {
+        iconCache[iconIdx] = L.icon({
+          iconUrl: `./data/images/icon-${iconIdx}.png`,
+          iconSize: [iconSize, iconSize],
+          iconAnchor: [iconSize / 2, iconSize / 2],
+          className: 'us-map__marker'
+        });
+      }
+
+      const leafletMarker = L.marker(latlng, { icon: iconCache[iconIdx] });
+      leafletMarker.bindTooltip(marker.n, { sticky: true });
+      leafletMarker.on('click', () => {
+        window.open(
+          `https://www.google.com/maps/search/?api=1&query=${marker.lat},${marker.lng}`,
+          '_blank',
+          'noopener noreferrer'
+        );
       });
-      group.addLayer(overlayLayer);
-    }
 
-    if (projection.images && projection.images.length) {
-      projection.images.forEach((image) => {
-        const flippedBounds = [
-          [viewBoxHeight - image.bounds[1][0], image.bounds[0][1]],
-          [viewBoxHeight - image.bounds[0][0], image.bounds[1][1]]
-        ];
-        const overlay = L.imageOverlay(image.href, flippedBounds, { interactive: false });
-        group.addLayer(overlay);
-      });
-    }
-
-    return group;
-  }
-
-  function buildOverlayMarker(feature, latlng) {
-    const iconData = feature && feature.properties ? feature.properties.icon : null;
-    if (iconData && iconData.href) {
-      const scale = Number.isFinite(iconData.scale) ? iconData.scale : 1;
-      const size = 22 * scale;
-      const icon = L.icon({
-        iconUrl: iconData.href,
-        iconSize: [size, size],
-        iconAnchor: [size / 2, size / 2],
-        className: 'us-map__marker'
-      });
-      return L.marker(latlng, { icon });
-    }
-    return L.circleMarker(latlng, {
-      radius: 5,
-      color: 'rgba(244, 180, 0, 0.8)',
-      fillColor: 'rgba(244, 180, 0, 0.65)',
-      fillOpacity: 0.9,
-      weight: 1,
-      className: 'us-map__marker'
+      layer.addLayer(leafletMarker);
     });
+
+    return layer;
   }
 
   function projectFeatures(features, context) {
@@ -622,17 +583,15 @@
       });
   }
 
-  function loadKmlSafe(src) {
+  function loadMarkersSafe(src) {
     return fetch(src)
       .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Unable to load KML from ${src}`);
-        }
-        return response.text();
+        if (!response.ok) throw new Error(`Unable to load markers from ${src}`);
+        return response.json();
       })
-      .then((text) => parseKml(text, src))
+      .then((data) => data.markers || [])
       .catch((error) => {
-        console.warn('KML overlay failed to load', error);
+        console.warn('Marker data failed to load', error);
         return null;
       });
   }
@@ -667,228 +626,14 @@
       .filter(Boolean);
   }
 
-  function parseKml(text, sourceUrl) {
-    const xml = new DOMParser().parseFromString(text, 'application/xml');
-    if (xml.querySelector('parsererror')) {
-      throw new Error('Invalid KML file.');
-    }
-    const features = [];
-    const basePath = getBasePath(sourceUrl);
-    const styleIndex = parseKmlStyles(xml, basePath);
-    const styleMapIndex = parseKmlStyleMaps(xml);
-
-    const placemarks = getKmlElements(xml, 'Placemark');
-    placemarks.forEach((placemark) => {
-      const name = getTextContent(placemark, 'name') || 'Overlay';
-      const icon = resolvePlacemarkIcon(placemark, styleIndex, styleMapIndex, basePath);
-      const polygons = parseKmlPolygons(placemark);
-      polygons.forEach((polygon) => {
-        if (!polygon.length) return;
-        features.push({
-          name,
-          geometryType: 'polygon',
-          isMulti: false,
-          coordinates: polygon,
-          region: inferRegionFromName(name)
-        });
-      });
-
-      const lines = parseKmlLines(placemark);
-      lines.forEach((line) => {
-        if (!line.length) return;
-        features.push({
-          name,
-          geometryType: 'line',
-          coordinates: line,
-          region: inferRegionFromName(name)
-        });
-      });
-
-      const points = parseKmlPoints(placemark, name, icon);
-      points.forEach((point) => features.push(point));
+  function buildStateMarkersIndexFromJson(markers) {
+    const index = {};
+    markers.forEach((m) => {
+      if (!m.s) return;
+      if (!index[m.s]) index[m.s] = [];
+      index[m.s].push({ name: m.n, lat: m.lat, lng: m.lng });
     });
-
-    const overlays = getKmlElements(xml, 'GroundOverlay');
-    overlays.forEach((overlay) => {
-      const name = getTextContent(overlay, 'name') || 'Overlay';
-      const rawHref = getTextContent(overlay, 'Icon href');
-      const href = resolveKmlHref(rawHref, basePath);
-      const bounds = parseKmlBounds(overlay);
-      if (!href || !bounds) return;
-      features.push({
-        name,
-        geometryType: 'image',
-        href,
-        bounds,
-        region: inferRegionFromName(name)
-      });
-    });
-
-    return features;
-  }
-
-  function parseKmlStyles(xml, basePath) {
-    const styles = {};
-    const styleEls = getKmlElements(xml, 'Style');
-    styleEls.forEach((style) => {
-      const id = style.getAttribute('id');
-      if (!id) return;
-      const href = resolveKmlHref(getTextContent(style, 'IconStyle Icon href'), basePath);
-      if (!href) return;
-      const scale = parseFloat(getTextContent(style, 'IconStyle scale')) || 1;
-      styles[`#${id}`] = { href, scale };
-    });
-    return styles;
-  }
-
-  function parseKmlStyleMaps(xml) {
-    const styleMaps = {};
-    const maps = getKmlElements(xml, 'StyleMap');
-    maps.forEach((mapEl) => {
-      const id = mapEl.getAttribute('id');
-      if (!id) return;
-      const pairs = getKmlElements(mapEl, 'Pair');
-      const normalPair = pairs.find((pair) => getTextContent(pair, 'key') === 'normal');
-      const styleUrl = normalPair ? getTextContent(normalPair, 'styleUrl') : '';
-      if (styleUrl) {
-        styleMaps[`#${id}`] = styleUrl;
-      }
-    });
-    return styleMaps;
-  }
-
-  function resolvePlacemarkIcon(placemark, styleIndex, styleMapIndex, basePath) {
-    const inlineStyle = getKmlElement(placemark, 'Style');
-    if (inlineStyle) {
-      const href = resolveKmlHref(getTextContent(inlineStyle, 'IconStyle Icon href'), basePath);
-      if (href) {
-        const scale = parseFloat(getTextContent(inlineStyle, 'IconStyle scale')) || 1;
-        return { href, scale };
-      }
-    }
-    const styleUrl = getTextContent(placemark, 'styleUrl');
-    if (!styleUrl) return null;
-    const resolvedStyleUrl = styleMapIndex[styleUrl] || styleUrl;
-    return styleIndex[resolvedStyleUrl] || null;
-  }
-
-  function parseKmlPoints(placemark, name, icon) {
-    const points = [];
-    const pointEls = getKmlElements(placemark, 'Point');
-    pointEls.forEach((pointEl) => {
-      const coordsText = getTextContent(pointEl, 'coordinates');
-      if (!coordsText) return;
-      const coords = parseKmlCoordinates(coordsText);
-      if (!coords.length) return;
-      points.push({
-        name: name || 'Location',
-        geometryType: 'point',
-        coordinates: coords[0],
-        icon
-      });
-    });
-    return points;
-  }
-
-  function parseKmlPolygons(placemark) {
-    const polygons = [];
-    const polygonEls = getKmlElements(placemark, 'Polygon');
-    polygonEls.forEach((polygonEl) => {
-      const rings = [];
-      const outerText = getTextContent(polygonEl, 'outerBoundaryIs coordinates');
-      if (outerText) {
-        const coords = parseKmlCoordinates(outerText);
-        if (coords.length) rings.push(coords);
-      }
-      const inners = getKmlElements(polygonEl, 'innerBoundaryIs');
-      inners.forEach((inner) => {
-        const innerText = getTextContent(inner, 'coordinates');
-        if (!innerText) return;
-        const coords = parseKmlCoordinates(innerText);
-        if (coords.length) rings.push(coords);
-      });
-      if (rings.length) polygons.push(rings);
-    });
-    return polygons;
-  }
-
-  function parseKmlLines(placemark) {
-    const lines = [];
-    const lineEls = getKmlElements(placemark, 'LineString');
-    lineEls.forEach((lineEl) => {
-      const coordsText = getTextContent(lineEl, 'coordinates');
-      if (!coordsText) return;
-      const coords = parseKmlCoordinates(coordsText);
-      if (coords.length) lines.push(coords);
-    });
-    return lines;
-  }
-
-  function parseKmlBounds(overlay) {
-    const box = getKmlElement(overlay, 'LatLonBox');
-    if (!box) return null;
-    const north = parseFloat(getTextContent(box, 'north'));
-    const south = parseFloat(getTextContent(box, 'south'));
-    const east = parseFloat(getTextContent(box, 'east'));
-    const west = parseFloat(getTextContent(box, 'west'));
-    if (![north, south, east, west].every(Number.isFinite)) return null;
-    return { north, south, east, west };
-  }
-
-  function parseKmlCoordinates(text) {
-    if (!text) return [];
-    return text
-      .trim()
-      .split(/\s+/)
-      .map((pair) => {
-        const parts = pair.split(',');
-        if (parts.length < 2) return null;
-        const lon = Number.parseFloat(parts[0]);
-        const lat = Number.parseFloat(parts[1]);
-        if (!Number.isFinite(lon) || !Number.isFinite(lat)) return null;
-        return [lon, lat];
-      })
-      .filter(Boolean);
-  }
-
-  function getBasePath(sourceUrl) {
-    if (!sourceUrl) return '';
-    const parts = sourceUrl.split('/');
-    parts.pop();
-    return parts.join('/');
-  }
-
-  function resolveKmlHref(href, basePath) {
-    if (!href) return '';
-    if (/^(?:[a-z]+:)?\/\//i.test(href) || href.startsWith('/')) {
-      return href;
-    }
-    if (!basePath) return href;
-    return `${basePath}/${href}`;
-  }
-
-  function getKmlElements(node, tagName) {
-    if (!node) return [];
-    if (node.getElementsByTagNameNS) {
-      return Array.from(node.getElementsByTagNameNS('*', tagName));
-    }
-    return Array.from(node.getElementsByTagName(tagName));
-  }
-
-  function getKmlElement(node, tagName) {
-    return getKmlElements(node, tagName)[0] || null;
-  }
-
-  function getTextContent(node, selector) {
-    if (!node || !selector) return '';
-    const parts = selector.trim().split(/\s+/);
-    let current = node;
-    for (const part of parts) {
-      const next = getKmlElement(current, part) || (current.querySelector ? current.querySelector(part) : null);
-      if (!next) return '';
-      current = next;
-    }
-    return current.textContent ? current.textContent.trim() : '';
+    return index;
   }
 
   function stateNameToKey(name) {
@@ -963,51 +708,6 @@
     anchor.setAttribute('rel', 'noopener');
     document.body.appendChild(anchor);
     return anchor;
-  }
-
-  function pointInPolygon(lon, lat, ring) {
-    let inside = false;
-    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-      const xi = ring[i][0], yi = ring[i][1];
-      const xj = ring[j][0], yj = ring[j][1];
-      if (((yi > lat) !== (yj > lat)) && (lon < (xj - xi) * (lat - yi) / (yj - yi) + xi)) {
-        inside = !inside;
-      }
-    }
-    return inside;
-  }
-
-  function findStateForPoint(lon, lat, rawGeoJson) {
-    if (!rawGeoJson || !Array.isArray(rawGeoJson.features)) return null;
-    for (const feature of rawGeoJson.features) {
-      if (!feature || !feature.geometry) continue;
-      const name = feature.properties && feature.properties.name;
-      if (!name) continue;
-      const { type, coordinates } = feature.geometry;
-      if (type === 'Polygon') {
-        if (pointInPolygon(lon, lat, coordinates[0])) return name;
-      } else if (type === 'MultiPolygon') {
-        for (const polygon of coordinates) {
-          if (pointInPolygon(lon, lat, polygon[0])) return name;
-        }
-      }
-    }
-    return null;
-  }
-
-  function buildStateMarkersIndex(kmlFeatures, rawGeoJson) {
-    const index = {};
-    kmlFeatures
-      .filter((f) => f && f.geometryType === 'point' && f.coordinates)
-      .forEach((f) => {
-        const lon = f.coordinates[0];
-        const lat = f.coordinates[1];
-        const state = findStateForPoint(lon, lat, rawGeoJson);
-        if (!state) return;
-        if (!index[state]) index[state] = [];
-        index[state].push({ name: f.name || 'Location', lat, lng: lon });
-      });
-    return index;
   }
 
   function initStateSearch(stateMarkersIndex) {

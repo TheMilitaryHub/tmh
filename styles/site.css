@@ -427,6 +427,18 @@ button:hover {
   margin: 0;
 }
 
+.marker-cluster-small,
+.marker-cluster-medium,
+.marker-cluster-large {
+  background-color: rgba(46, 165, 255, 0.4);
+}
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+  background-color: rgba(46, 165, 255, 0.85);
+  color: #fff;
+}
+
 .state-files-panel {
   width: 100%;
   text-align: left;
