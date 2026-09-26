@@ -78,11 +78,62 @@ async function build(env) {
     s.items.sort((a, b) => (a.category + a.name).localeCompare(b.category + b.name));
   }
 
+  const duplicates = findDuplicates(states, national);
+
   return {
     states,
     national,
-    meta: { read, skipped, states: Object.keys(states).length, generated: new Date().toISOString() },
+    meta: {
+      read,
+      skipped,
+      states: Object.keys(states).length,
+      duplicates: {
+        count: duplicates.length,
+        conflicting: duplicates.filter(d => d.statesDisagree).length,
+        groups: duplicates,
+      },
+      generated: new Date().toISOString(),
+    },
   };
+}
+
+function findDuplicates(states, national) {
+  const all = [];
+  for (const bucket of Object.values(states)) {
+    for (const item of bucket.items) all.push({ item, state: bucket.state });
+  }
+  for (const item of national) all.push({ item, state: 'National' });
+
+  const groups = new Map();
+  for (const row of all) {
+    const keys = [];
+    if (row.item.name) keys.push('n:' + row.item.name.toLowerCase().replace(/[^a-z0-9]/g, ''));
+    if (row.item.website) keys.push('w:' + row.item.website.toLowerCase().replace(/\/+$/, ''));
+    for (const k of keys) {
+      if (!groups.has(k)) groups.set(k, []);
+      groups.get(k).push(row);
+    }
+  }
+
+  const seen = new Set();
+  const out = [];
+  for (const rows of groups.values()) {
+    const ids = [...new Set(rows.map(r => r.item.id))];
+    if (ids.length < 2) continue;
+    const sig = ids.slice().sort().join(',');
+    if (seen.has(sig)) continue;
+    seen.add(sig);
+    const statesFor = [...new Set(rows.map(r => r.state))];
+    out.push({
+      name: rows[0].item.name,
+      category: rows[0].item.category,
+      ids,
+      states: statesFor,
+      statesDisagree: statesFor.length > 1,
+    });
+  }
+  out.sort((a, b) => (b.statesDisagree - a.statesDisagree) || a.name.localeCompare(b.name));
+  return out.slice(0, 25);
 }
 
 async function handle(request, env, ctx) {
