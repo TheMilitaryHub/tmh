@@ -1,74 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <title>TMH | Donate</title>
-    <link rel="stylesheet" href="./styles/site.css" />
-    <script
-        src="https://www.paypal.com/sdk/js?client-id=BAAKU2RI6ERE4nCp5SPmmEW5tGW7HrtVSPHjJjCn8_U9WQub0zwCgR8qQYEzy7OyiRVGok5ZWdNeY87juo&components=hosted-buttons&enable-funding=venmo&currency=USD">
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <title>TMH | Donate</title>
+  <meta name="description" content="TMH is a 501(c)(4) registered in the United States. Donations cover operational costs, emergency funds, and community projects." />
+  <meta property="og:title" content="TMH | Donate" />
+  <meta property="og:description" content="TMH is a 501(c)(4) registered in the United States. Donations cover operational costs, emergency funds, and community projects." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://themilitaryhub.org/donate.html" />
+  <meta name="twitter:card" content="summary" />
+  <script src="https://www.paypal.com/sdk/js?client-id=BAAKU2RI6ERE4nCp5SPmmEW5tGW7HrtVSPHjJjCn8_U9WQub0zwCgR8qQYEzy7OyiRVGok5ZWdNeY87juo&components=hosted-buttons&enable-funding=venmo&currency=USD"></script>
+  <link rel="stylesheet" href="./styles/site.css" />
+  <script>
+    (() => {
+      const r = document.documentElement;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!('IntersectionObserver' in window)) return;
+      r.classList.add('js-reveal');
+    })();
+  </script>
 </head>
-<body class="page page--donate">
-<a class="skip-link" href="#main-content">Skip to main content</a>
-<modular-menu
-      data-links='[
-        {"label":"Home","href":"./index.html"},
-        {"label":"About Us","href":"./aboutus.html"},
-        {"label":"Resources","href":"./resources.html"},
-        {"label":"Contact","href":"./contact.html"},
-        {"label":"Community Engagement","href":"./community.html"},
-        {"label":"Donate","href":"./donate.html"},
-        {"label":"Merch Store","href":"./shop.html"}
-      ]'
-></modular-menu>
+<body>
 
-<main id="main-content" class="text-center">
-    <h1>Donate Today</h1>
-    <p>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="masthead">
+  <div class="page">
+    <div class="masthead__top">
+      <a class="wordmark" href="./index.html">The Military Hub</a>
+      <span class="masthead__tag">For transgender US service members, past, present and future.</span>
+      <span class="masthead__est">Est. 2020</span>
+    </div>
+    <nav class="primary" aria-label="Primary">
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./aboutus.html">About Us</a></li>
+        <li><a href="./resources.html">Resources</a></li>
+        <li><a href="./community.html">Community Engagement</a></li>
+        <li><a href="./contact.html">Contact</a></li>
+        <li><a href="./donate.html" aria-current="page">Donate</a></li>
+        <li><a href="./shop.html">Merch Store</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Primary">
+  <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./aboutus.html">About Us</a></li>
+        <li><a href="./resources.html">Resources</a></li>
+        <li><a href="./community.html">Community Engagement</a></li>
+        <li><a href="./contact.html">Contact</a></li>
+        <li><a href="./donate.html" aria-current="page">Donate</a></li>
+        <li><a href="./shop.html">Merch Store</a></li>
+  </ul>
+</nav>
+
+<hr class="rule-heavy" />
+
+<main id="main">
+  <div class="page">
+    <div class="head reveal">
+      <h1>Donate Today</h1>
+      <p class="standfirst">
         TMH is a 501(c)(4) registered in the United States.
         The money you donate goes towards:
-    </p>
-
-    <h2>Where Your Donation Goes</h2>
-    <div class="resource-grid">
-        <article class="resource-card">
-            <h3>Operational Costs</h3>
-            <p>
-                Helps keep TMH running, covering the day-to-day
-                expenses to community programs for TMH members.
-            </p>
-        </article>
-        <article class="resource-card">
-            <h3>Emergency Funds</h3>
-            <p>
-                Life has unexpected turn for everyone, and TMH
-                provides resources to help its members when they need it most.
-            </p>
-        </article>
-        <article class="resource-card">
-            <h3>Projects</h3>
-            <p>
-                TMH hosts multiple projects aimed at helping members
-                improve their quality of life.
-            </p>
-        </article>
+      </p>
     </div>
 
-    <h2>Make a Donation</h2>
-    <div id="paypal-container-KZSLUC328QHXE" style="max-width: 500px; margin-left: 130px ;"></div>
-    <div style="margin-top: 2rem;">
-        <p>Or scan to donate via PayPal:</p>
-        <img src="./media/qr.png" alt="PayPal donation QR code" style="max-width: 220px;" />
-    </div>
+    <section class="block reveal">
+      <h2>Where Your Donation Goes</h2>
+      <div class="entries">
+        <div class="entry">
+          <div class="entry__k">Operational Costs</div>
+          <div class="entry__v">
+            <p>Helps keep TMH running, covering the day-to-day
+              expenses to community programs for TMH members.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <div class="entry__k">Emergency Funds</div>
+          <div class="entry__v">
+            <p>Life has unexpected turn for everyone, and TMH
+              provides resources to help its members when they need it most.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <div class="entry__k">Projects</div>
+          <div class="entry__v">
+            <p>TMH hosts multiple projects aimed at helping members
+              improve their quality of life.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block reveal">
+      <h2>Make a Donation</h2>
+      <div class="map-wrap" style="grid-template-columns:1fr auto;align-items:start;margin-top:2rem">
+        <div>
+          <div id="paypal-container-KZSLUC328QHXE" style="max-width:500px"></div>
+        </div>
+        <div style="text-align:center">
+          <p style="margin-bottom:.6rem">Or scan to donate via PayPal:</p>
+          <img src="./media/qr.png" alt="PayPal donation QR code"
+               style="width:190px;max-width:100%;border:1px solid var(--rule);background:#fff;padding:.5rem" />
+        </div>
+      </div>
+    </section>
+  </div>
 </main>
 
-<script src="./scripts/menu-component.js"></script>
+<footer class="site">
+  <div class="page">
+    <div class="foot">
+      <div>
+        <h4>The Military Hub</h4>
+        <p class="foot__mission">TMH is a 501(c)(4) registered in the United States.</p>
+        <p class="foot__contact">Questions? Reach us at <a href="mailto:admin.tmh@gmail.com">admin.tmh@gmail.com</a></p>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="./aboutus.html">About Us</a></li>
+          <li><a href="./resources.html">Resources</a></li>
+          <li><a href="./community.html">Community Engagement</a></li>
+          <li><a href="./shop.html">Merch Store</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="./contact.html">Contact</a></li>
+          <li><a href="./donate.html">Donate</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__base">
+      <span>&copy; 2026 The Military Hub</span>
+      <span>501(c)(4) registered in the United States</span>
+    </div>
+  </div>
+</footer>
+
+<script defer src="./scripts/reveal.js"></script>
 <script>
-    paypal.HostedButtons({
-        hostedButtonId: "KZSLUC328QHXE",
-    }).render("#paypal-container-KZSLUC328QHXE");
+  paypal.HostedButtons({
+    hostedButtonId: "KZSLUC328QHXE",
+  }).render("#paypal-container-KZSLUC328QHXE");
 </script>
 </body>
 </html>

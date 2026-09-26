@@ -1,141 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <title>Community Engagement</title>
-    <link rel="stylesheet" href="./styles/site.css" />
-  </head>
-  <body class="page page--community">
-    <a class="skip-link" href="#main-content">Skip to main content</a>
-    <modular-menu
-      data-links='[
-        {"label":"Home","href":"./index.html"},
-        {"label":"About Us","href":"./aboutus.html"},
-        {"label":"Resources","href":"./resources.html"},
-        {"label":"Contact","href":"./contact.html"},
-        {"label":"Community Engagement","href":"./community.html"},
-        {"label":"Donate","href":"./donate.html"},
-        {"label":"Merch Store","href":"./shop.html"}
-      ]'
-    ></modular-menu>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <title>TMH | Community Engagement</title>
+  <meta name="description" content="Community engagement at The Military Hub — our servers and the peer-maintained resource library." />
+  <meta property="og:title" content="TMH | Community Engagement" />
+  <meta property="og:description" content="Community engagement at The Military Hub — our servers and the peer-maintained resource library." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://themilitaryhub.org/community.html" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="./styles/site.css" />
+  <script>
+    (() => {
+      const r = document.documentElement;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!('IntersectionObserver' in window)) return;
+      r.classList.add('js-reveal');
+    })();
+  </script>
+</head>
+<body>
 
-    <main id="main-content" class="text-center">
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="masthead">
+  <div class="page">
+    <div class="masthead__top">
+      <a class="wordmark" href="./index.html">The Military Hub</a>
+      <span class="masthead__tag">For transgender US service members, past, present and future.</span>
+      <span class="masthead__est">Est. 2020</span>
+    </div>
+    <nav class="primary" aria-label="Primary">
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./aboutus.html">About Us</a></li>
+        <li><a href="./resources.html">Resources</a></li>
+        <li><a href="./community.html" aria-current="page">Community Engagement</a></li>
+        <li><a href="./contact.html">Contact</a></li>
+        <li><a href="./donate.html">Donate</a></li>
+        <li><a href="./shop.html">Merch Store</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Primary">
+  <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./aboutus.html">About Us</a></li>
+        <li><a href="./resources.html">Resources</a></li>
+        <li><a href="./community.html" aria-current="page">Community Engagement</a></li>
+        <li><a href="./contact.html">Contact</a></li>
+        <li><a href="./donate.html">Donate</a></li>
+        <li><a href="./shop.html">Merch Store</a></li>
+  </ul>
+</nav>
+
+<hr class="rule-heavy" />
+
+<main id="main">
+  <div class="page">
+    <div class="head reveal">
       <h1>Community Engagement</h1>
-      <p>
+      <p class="standfirst">
         TMH as a community serves to deliver on the mission statement of community
         and service as our core values. We want to deliver the best we can for our
         members; because they are the best
       </p>
-      <p>
+      <p style="margin-top:1rem">
         We get involved with the community in multiple ways, see how in our keystones below.
       </p>
-    </main>
+    </div>
 
-    <section class="card">
-      <h2 class="text-center">Resource Library</h2>
-      <p>
+    <section class="block reveal">
+      <h2>Resource Library</h2>
+      <p class="block__intro">
         Volunteers maintain a living library of guides, vetted service
         providers, RLE testimonies and support.
       </p>
-      <div class="resource-grid">
-        <article class="resource-card">
-          <h3>Transition &amp; Support</h3>
-          <p>
-            Step-by-step checklists, safe guarded resources and support
-            navigating either those actively serving, transitioning out of service or those who have served.
-          </p>
-        </article>
-        <article class="resource-card">
-          <h3>Mental Health &amp; Crisis Support</h3>
-          <p>
-            Confidential Mental Health Volunteers stay on stand-by; contributed by our peer support team.
-          </p>
-        </article>
+      <div class="entries">
+        <div class="entry">
+          <div class="entry__k">Transition &amp; Support</div>
+          <div class="entry__v">
+            <p>Step-by-step checklists, safe guarded resources and support
+              navigating either those actively serving, transitioning out of service
+              or those who have served.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <div class="entry__k">Mental Health &amp; Crisis Support</div>
+          <div class="entry__v">
+            <p>Confidential Mental Health Volunteers stay on stand-by; contributed by
+              our peer support team.</p>
+          </div>
+        </div>
       </div>
-      <p>
+      <p style="margin-top:1.6rem">
         Want to request a specific resource or contribute your own?
         <a href="./contact.html">Message the staff</a> and we will get it added.
       </p>
     </section>
 
-    <section class="info-panel">
-      <h2 class="text-center">Our Community Servers</h2>
-      <p>
+    <section class="block reveal">
+      <h2>Our Community Servers</h2>
+      <p class="block__intro">
         Social Engagement is at the core of community! We have multiple servers that you can
         interact with to find mutual community, support and most importantly, fun!
       </p>
-      <ul class="server-list">
-
-        <li>
-          <a
-            class="server-card"
-            href="https://discord.gg/TMH"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <strong>TMH Discord Server</strong> &mdash; Our
-            community flagship, the central nexus of our community and social engagement.
-          </a>
-        </li>
-        <li>
-          <a
-            class="server-card"
-            href="minecraft://?addExternalServer=TMH%20Minecraft%20Server|tmh-mc.modrinth.gg:25565"
-            data-launch="minecraft"
-            data-fallback="https://tmh-mc.modrinth.gg"
-          >
-            <strong>TMH Minecraft Server</strong> &mdash; Survival
-            Multiplayer. Whitelisted for
-            verified members.
-          </a>
-        </li>
-      </ul>
-      <p>
+      <div class="entries">
+        <div class="entry">
+          <div class="entry__k">TMH Discord Server</div>
+          <div class="entry__v">
+            <p>Our community flagship, the central nexus of our community and social engagement.</p>
+            <p><a href="https://discord.gg/TMH" target="_blank" rel="noopener noreferrer">discord.gg/TMH</a></p>
+          </div>
+        </div>
+        <div class="entry">
+          <div class="entry__k">TMH Minecraft Server</div>
+          <div class="entry__v">
+            <p>Survival Multiplayer. Whitelisted for verified members.</p>
+            <p>
+              <a href="minecraft://?addExternalServer=TMH%20Minecraft%20Server|tmh-mc.modrinth.gg:25565"
+                 data-launch="minecraft" data-fallback="https://tmh-mc.modrinth.gg">tmh-mc.modrinth.gg</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:1.6rem">
         Server access is whitelist only to our verified community members. Contact a
         staff member if you need assistance with access.
       </p>
     </section>
+  </div>
+</main>
 
-    <script src="./scripts/menu-component.js"></script>
-    <script>
-      (() => {
-        const minecraftLink = document.querySelector('[data-launch="minecraft"]');
-        if (!minecraftLink) return;
+<footer class="site">
+  <div class="page">
+    <div class="foot">
+      <div>
+        <h4>The Military Hub</h4>
+        <p class="foot__mission">TMH is a 501(c)(4) registered in the United States.</p>
+        <p class="foot__contact">Questions? Reach us at <a href="mailto:admin.tmh@gmail.com">admin.tmh@gmail.com</a></p>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="./aboutus.html">About Us</a></li>
+          <li><a href="./resources.html">Resources</a></li>
+          <li><a href="./community.html">Community Engagement</a></li>
+          <li><a href="./shop.html">Merch Store</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="./contact.html">Contact</a></li>
+          <li><a href="./donate.html">Donate</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__base">
+      <span>&copy; 2026 The Military Hub</span>
+      <span>501(c)(4) registered in the United States</span>
+    </div>
+  </div>
+</footer>
 
-        minecraftLink.addEventListener('click', event => {
-          const deepLink = minecraftLink.getAttribute('href');
-          const fallback = minecraftLink.dataset.fallback;
-          let fallbackTimer = null;
-
-          const clearFallback = () => {
-            if (fallbackTimer) {
-              clearTimeout(fallbackTimer);
-              fallbackTimer = null;
-            }
-          };
-
-          const handleVisibilityChange = () => {
-            if (document.hidden) {
-              clearFallback();
-              document.removeEventListener('visibilitychange', handleVisibilityChange);
-            }
-          };
-
-          event.preventDefault();
-
-          if (fallback) {
-            fallbackTimer = setTimeout(() => {
-              window.open(fallback, '_blank', 'noopener');
-              document.removeEventListener('visibilitychange', handleVisibilityChange);
-            }, 1500);
-          }
-
-          document.addEventListener('visibilitychange', handleVisibilityChange);
-          window.location.href = deepLink;
-        });
-      })();
-    </script>
-  </body>
+<script defer src="./scripts/reveal.js"></script>
+<script>
+  (() => {
+    const link = document.querySelector('[data-launch="minecraft"]');
+    if (!link) return;
+    link.addEventListener('click', event => {
+      const deepLink = link.getAttribute('href');
+      const fallback = link.dataset.fallback;
+      let timer = null;
+      const clear = () => { if (timer) { clearTimeout(timer); timer = null; } };
+      const onHide = () => {
+        if (document.hidden) { clear(); document.removeEventListener('visibilitychange', onHide); }
+      };
+      event.preventDefault();
+      if (fallback) {
+        timer = setTimeout(() => {
+          window.open(fallback, '_blank', 'noopener');
+          document.removeEventListener('visibilitychange', onHide);
+        }, 1500);
+      }
+      document.addEventListener('visibilitychange', onHide);
+      window.location.href = deepLink;
+    });
+  })();
+</script>
+</body>
 </html>

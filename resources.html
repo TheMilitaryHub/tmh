@@ -1,166 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <title>TMH | Resources</title>
-    <link rel="stylesheet" href="./styles/vendor/leaflet.css" />
-    <link rel="stylesheet" href="./styles/vendor/MarkerCluster.css" />
-    <link rel="stylesheet" href="./styles/vendor/MarkerCluster.Default.css" />
-    <link rel="stylesheet" href="./styles/site.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <title>TMH | Resources</title>
+  <meta name="description" content="Check out some of TMH's important documents and other useful resources." />
+  <meta property="og:title" content="TMH | Resources" />
+  <meta property="og:description" content="Check out some of TMH's important documents and other useful resources." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://themilitaryhub.org/resources.html" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="./styles/vendor/leaflet.css" />
+  <link rel="stylesheet" href="./styles/vendor/MarkerCluster.css" />
+  <link rel="stylesheet" href="./styles/vendor/MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="./styles/site.css" />
+  <script>
+    (() => {
+      const r = document.documentElement;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!('IntersectionObserver' in window)) return;
+      r.classList.add('js-reveal');
+    })();
+  </script>
 </head>
-<body class="page page--resources">
-    <a class="skip-link" href="#main-content">Skip to main content</a>
-    <modular-menu
-            data-links='[
-            {"label":"Home","href":"./index.html"},
-            {"label":"About Us","href":"./aboutus.html"},
-            {"label":"Resources","href":"./resources.html"},
-            {"label":"Contact","href":"./contact.html"},
-            {"label":"Community Engagement","href":"./community.html"},
-            {"label":"Donate","href":"./donate.html"},
-            {"label":"Merch Store","href":"./shop.html"}
-        ]'
-    ></modular-menu>
+<body>
 
-    <main id="main-content" class="text-center">
-        <h1>Resources</h1>
-        <p>
-            Check out some of TMH's important documents and other useful resources.
-        </p>
-        <div class="resource-grid">
-            <article class="resource-card">
-                <h3><a href="#resources-transition">Transition</a></h3>
-            </article>
-            <article class="resource-card">
-                <h3><a href="#resources-crisis">Crisis</a></h3>
-            </article>
-            <article class="resource-card">
-                <h3><a href="#resources-history">History</a></h3>
-            </article>
-            <article class="resource-card">
-                <h3><a href="#resources-advocacy">Advocacy</a></h3>
-            </article>
-            <article class="resource-card">
-                <h3><a href="#resources-education">Education</a></h3>
-            </article>
-            <article class="resource-card">
-                <h3><a href="#state-resources">State Resource Map</a></h3>
-            </article>
-        </div>
-    </main>
+<a class="skip-link" href="#main">Skip to main content</a>
 
-    <section class="info-panel" id="resources-transition">
-        <h2 class="text-center">Transition Resources</h2>
-        <p>
-            <a href="https://wpath.org/publications/soc8">WPATH</a><br>
-            <a href="https://www.endocrine.org/advocacy/position-statements/transgender-health">Endocrine Society</a><br>
-        </p>
+<header class="masthead">
+  <div class="page">
+    <div class="masthead__top">
+      <a class="wordmark" href="./index.html">The Military Hub</a>
+      <span class="masthead__tag">For transgender US service members, past, present and future.</span>
+      <span class="masthead__est">Est. 2020</span>
+    </div>
+    <nav class="primary" aria-label="Primary">
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./aboutus.html">About Us</a></li>
+        <li><a href="./resources.html" aria-current="page">Resources</a></li>
+        <li><a href="./community.html">Community Engagement</a></li>
+        <li><a href="./contact.html">Contact</a></li>
+        <li><a href="./donate.html">Donate</a></li>
+        <li><a href="./shop.html">Merch Store</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Primary">
+  <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./aboutus.html">About Us</a></li>
+        <li><a href="./resources.html" aria-current="page">Resources</a></li>
+        <li><a href="./community.html">Community Engagement</a></li>
+        <li><a href="./contact.html">Contact</a></li>
+        <li><a href="./donate.html">Donate</a></li>
+        <li><a href="./shop.html">Merch Store</a></li>
+  </ul>
+</nav>
+
+<hr class="rule-heavy" />
+
+<main id="main">
+  <div class="page">
+    <div class="head reveal">
+      <h1>Resources</h1>
+      <p class="standfirst">
+        Check out some of TMH's important documents and other useful resources.
+      </p>
+      <div class="chips">
+        <a href="#resources-transition">Transition</a>
+        <a href="#resources-crisis">Crisis</a>
+        <a href="#resources-history">History</a>
+        <a href="#resources-advocacy">Advocacy</a>
+        <a href="#resources-education">Education</a>
+        <a href="#state-resources">State Resource Map</a>
+      </div>
+    </div>
+
+    <section class="block reveal" id="resources-transition">
+      <h2>Transition Resources</h2>
+      <ul class="entry__list" style="margin-top:1.4rem">
+        <li><a href="https://wpath.org/publications/soc8">WPATH</a></li>
+        <li><a href="https://www.endocrine.org/advocacy/position-statements/transgender-health">Endocrine Society</a></li>
+      </ul>
     </section>
 
-    <section class="info-panel" id="resources-crisis">
-        <h2 class="text-center">Crisis Resources</h2>
-        <p>
-           <a href="https://988lifeline.org">Suicide Hotline</a> - Call or Text 988<br>
-           <a href="https://translifeline.org">Trans Lifeline</a> - Call 877-565-8860<br>
-           <a href="https://www.thetrevorproject.org">The Trevor Project</a> - Call 866-488-7386<br>
-        </p>
+    <section class="block reveal" id="resources-crisis">
+      <h2>Crisis Resources</h2>
+      <ul class="entry__list" style="margin-top:1.4rem">
+        <li><a href="https://988lifeline.org">Suicide Hotline</a> - Call or Text 988</li>
+        <li><a href="https://translifeline.org">Trans Lifeline</a> - Call 877-565-8860</li>
+        <li><a href="https://www.thetrevorproject.org">The Trevor Project</a> - Call 866-488-7386</li>
+      </ul>
     </section>
 
-    <section class="info-panel" id="resources-history">
-        <h2 class="text-center">History of Transgender Service in the Armed Forces</h2>
-        <p>
-            <br>
-            <br>
-            <br>
-        </p>
+    <section class="block reveal" id="resources-history">
+      <h2>History of Transgender Service in the Armed Forces</h2>
     </section>
 
-    <section class="info-panel" id="resources-advocacy">
-        <h2 class="text-center">Other Trans Advocacy Groups</h2>
-        <p>
-            <a href="https://spartapride.org">SPARTA Pride</a><br>
-            <a href="https://transequality.org">Advocates for Trans Equality</a><br>
-            <a href="https://www.transveteran.org">Transgender American Veterans Association</a><br>
-            <a href="https://www.aclu.org/issues/lgbtq-rights">American Civil Liberties Union</a><br>
-            <a href="https://www.hrc.org/resources/transgender">Human Rights Campaign</a><br>
-            <a href="https://modernmilitary.org">Modern Military Association of America</a><br>
-        </p>
+    <section class="block reveal" id="resources-advocacy">
+      <h2>Other Trans Advocacy Groups</h2>
+      <ul class="entry__list" style="margin-top:1.4rem">
+        <li><a href="https://spartapride.org">SPARTA Pride</a></li>
+        <li><a href="https://transequality.org">Advocates for Trans Equality</a></li>
+        <li><a href="https://www.transveteran.org">Transgender American Veterans Association</a></li>
+        <li><a href="https://www.aclu.org/issues/lgbtq-rights">American Civil Liberties Union</a></li>
+        <li><a href="https://www.hrc.org/resources/transgender">Human Rights Campaign</a></li>
+        <li><a href="https://modernmilitary.org">Modern Military Association of America</a></li>
+      </ul>
     </section>
 
-    <section class="info-panel" id="resources-education">
-        <h2 class="text-center">Educational Resources</h2>
-        <p>
-            <br>
-            <br>
-            <br>
-        </p>
+    <section class="block reveal" id="resources-education">
+      <h2>Educational Resources</h2>
     </section>
 
-    <section class="info-panel info-panel--map" id="state-resources">
-        <h2 class="text-center">State Resource Map</h2>
-        <p class="text-center">
-            Hover over any state to highlight it in blue. Click a state then scroll down to the dropdown menu to view files.
-        </p>
-        <div
+    <section class="block reveal" id="state-resources">
+      <h2>State Resource Map</h2>
+      <p class="block__intro">
+        Hover over any state to highlight it. Click a state then use the dropdown menu
+        to view files.
+      </p>
+
+      <div class="map-wrap">
+        <div>
+          <div
             class="us-map"
             data-role="state-map"
             data-map-geojson="./data/us-states.json"
             data-map-markers="./data/map-markers.json"
-        >
+          >
             <div class="us-map__canvas" data-role="state-map-canvas"></div>
             <div class="us-map__loader">Loading interactive map...</div>
             <div class="us-map__controls" aria-label="Map zoom controls">
-                <button type="button" class="us-map__control" data-role="map-zoom-in" aria-label="Zoom in">
-                    +
-                </button>
-                <button type="button" class="us-map__control" data-role="map-zoom-out" aria-label="Zoom out">
-                    -
-                </button>
-                <button type="button" class="us-map__control" data-role="map-zoom-reset" aria-label="Reset zoom">
-                    Reset
-                </button>
+              <button type="button" class="us-map__control" data-role="map-zoom-in" aria-label="Zoom in">+</button>
+              <button type="button" class="us-map__control" data-role="map-zoom-out" aria-label="Zoom out">-</button>
+              <button type="button" class="us-map__control" data-role="map-zoom-reset" aria-label="Reset zoom">Reset</button>
             </div>
-        </div>
-        <div class="state-files-panel hidden" data-role="state-files-panel">
-            <div class="state-files-panel__header">
-                <span data-role="state-files-name">State Resources</span>
-            </div>
-            <p class="state-files-panel__status" data-role="state-files-status">
-                Select a state to see available files.
-            </p>
-            <div class="state-files-panel__empty hidden" data-role="state-files-empty">
-                No files have been added for this state yet.
-            </div>
-            <div class="state-files-panel__form hidden" data-role="state-files-form">
-                <label class="state-files-panel__label" for="state-file-select">Files</label>
-                <select id="state-file-select" data-role="state-file-select"></select>
-                <button type="button" class="state-files-panel__button" data-role="state-file-open">
-                    Open file
-                </button>
-            </div>
-        </div>
-        <p class="us-map__hint text-center">
+          </div>
+          <p class="us-map__hint">
             Need Alaska or Hawaii? We got it towards the bottom, with PR in the bottom right corner.
-        </p>
-        <div class="state-search-panel" data-role="state-search-panel">
-            <div class="state-search-panel__header">Find Resources by State</div>
-            <div class="state-search-panel__controls">
-                <label class="state-search-panel__label" for="state-search-select">Select a state</label>
-                <select id="state-search-select" data-role="state-search-select">
-                    <option value="">-- Select a state --</option>
-                </select>
-            </div>
-            <ul class="state-search-results" data-role="state-search-results"></ul>
+          </p>
         </div>
+
+        <aside>
+          <div class="state-directory" data-role="state-directory">
+            <div class="state-directory__head">
+              <span data-role="dir-title">Select a state</span>
+            </div>
+            <p class="state-directory__status" data-role="dir-status">
+              Click a state on the map to see what is listed there.
+            </p>
+            <ul class="res-list" data-role="dir-list"></ul>
+          </div>
+        </aside>
+      </div>
     </section>
 
-    <script defer src="./scripts/menu-component.js"></script>
-    <script defer src="./scripts/us-state-paths.js"></script>
-    <script defer src="./scripts/state-resource-files.js"></script>
-    <script defer src="./scripts/vendor/leaflet.js"></script>
-    <script defer src="./scripts/vendor/leaflet.markercluster.js"></script>
-    <script defer src="./scripts/state-map.js"></script>
+    <section class="block reveal" id="national-resources">
+      <h2>Nationwide</h2>
+      <p class="block__intro" data-role="national-status">
+        Resources that are not tied to one state.
+      </p>
+      <ul class="res-list res-list--cols" data-role="national-list"></ul>
+    </section>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="page">
+    <div class="foot">
+      <div>
+        <h4>The Military Hub</h4>
+        <p class="foot__mission">TMH is a 501(c)(4) registered in the United States.</p>
+        <p class="foot__contact">Questions? Reach us at <a href="mailto:admin.tmh@gmail.com">admin.tmh@gmail.com</a></p>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="./aboutus.html">About Us</a></li>
+          <li><a href="./resources.html">Resources</a></li>
+          <li><a href="./community.html">Community Engagement</a></li>
+          <li><a href="./shop.html">Merch Store</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="./contact.html">Contact</a></li>
+          <li><a href="./donate.html">Donate</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__base">
+      <span>&copy; 2026 The Military Hub</span>
+      <span>501(c)(4) registered in the United States</span>
+    </div>
+  </div>
+</footer>
+
+<script defer src="./scripts/reveal.js"></script>
+<script defer src="./scripts/us-state-paths.js"></script>
+<script defer src="./scripts/state-resources.js"></script>
+<script defer src="./scripts/vendor/leaflet.js"></script>
+<script defer src="./scripts/vendor/leaflet.markercluster.js"></script>
+<script defer src="./scripts/state-map.js"></script>
 </body>
 </html>

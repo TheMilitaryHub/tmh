@@ -6,7 +6,8 @@
   const REGION_HAWAII = 'hawaii';
   const REGION_PUERTO_RICO = 'puertorico';
 
-  const stateFilesData = window.STATE_RESOURCE_FILES || {};
+  let stateFilesData = window.STATE_RESOURCE_FILES || {};
+  const stateLayers = new Map(); 
 
   document.addEventListener('DOMContentLoaded', () => {
     const mapMount = document.querySelector('[data-role="state-map"]');
@@ -66,6 +67,11 @@
 
     const stateLayer = createStateLayer(baseProjection.geojson, panelApi, filesData, viewBox.height);
     stateLayer.addTo(map);
+    applyResourceHighlights();
+    document.addEventListener('tmh:state-resources', () => {
+      stateFilesData = window.STATE_RESOURCE_FILES || {};
+      applyResourceHighlights();
+    });
 
     if (markersData && markersData.length) {
       const markerLayer = createMarkerLayer(markersData, projectionContext, viewBox.height);
@@ -133,6 +139,7 @@
       style: defaultStyle,
       onEachFeature: (feature, layer) => {
         const name = feature && feature.properties ? feature.properties.name : 'State';
+        if (name) stateLayers.set(stateNameToKey(name), layer);
         layer.on('mouseover', () => {
           layer.setStyle(hoverStyle);
           const element = layer.getElement();
@@ -147,7 +154,7 @@
         });
         layer.on('click', () => {
           if (name) {
-            handleStateSelection(name, panelApi, filesData);
+            document.dispatchEvent(new CustomEvent('tmh:state-selected', { detail: { state: name } }));
           }
         });
       }
@@ -634,6 +641,15 @@
       index[m.s].push({ name: m.n, lat: m.lat, lng: m.lng });
     });
     return index;
+  }
+
+  function applyResourceHighlights() {
+    stateLayers.forEach((layer, key) => {
+      const el = layer.getElement && layer.getElement();
+      if (!el) return;
+      const has = Array.isArray(stateFilesData[key]) && stateFilesData[key].length > 0;
+      el.classList.toggle('has-resources', has);
+    });
   }
 
   function stateNameToKey(name) {

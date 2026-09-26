@@ -1,90 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <title>TMH | Contact</title>
-    <link rel="stylesheet" href="./styles/site.css" />
-  </head>
-  <body class="page page--contact">
-    <a class="skip-link" href="#main-content">Skip to main content</a>
-    <modular-menu
-      data-links='[
-        {"label":"Home","href":"./index.html"},
-        {"label":"About Us","href":"./aboutus.html"},
-        {"label":"Resources","href":"./resources.html"},
-        {"label":"Contact","href":"./contact.html"},
-        {"label":"Community Engagement","href":"./community.html"},
-        {"label":"Donate","href":"./donate.html"},
-        {"label":"Merch Store","href":"./shop.html"}
-      ]'
-    ></modular-menu>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <title>TMH | Contact</title>
+  <meta name="description" content="Contact the TMH staff. You will not need a Discord account." />
+  <meta property="og:title" content="TMH | Contact" />
+  <meta property="og:description" content="Contact the TMH staff. You will not need a Discord account." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://themilitaryhub.org/contact.html" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="./styles/site.css" />
+  <script>
+    (() => {
+      const r = document.documentElement;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!('IntersectionObserver' in window)) return;
+      r.classList.add('js-reveal');
+    })();
+  </script>
+</head>
+<body>
 
-    <main id="main-content">
-      <h1 class="text-center">Contact the TMH Staff</h1>
-      <p class="text-center">
-        Fill out the form below and your message will be sent securely and directly to TMH staff. You will not need a Discord account for this; just a way for us to reach you back.
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="masthead">
+  <div class="page">
+    <div class="masthead__top">
+      <a class="wordmark" href="./index.html">The Military Hub</a>
+      <span class="masthead__tag">For transgender US service members, past, present and future.</span>
+      <span class="masthead__est">Est. 2020</span>
+    </div>
+    <nav class="primary" aria-label="Primary">
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./aboutus.html">About Us</a></li>
+        <li><a href="./resources.html">Resources</a></li>
+        <li><a href="./community.html">Community Engagement</a></li>
+        <li><a href="./contact.html" aria-current="page">Contact</a></li>
+        <li><a href="./donate.html">Donate</a></li>
+        <li><a href="./shop.html">Merch Store</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Primary">
+  <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./aboutus.html">About Us</a></li>
+        <li><a href="./resources.html">Resources</a></li>
+        <li><a href="./community.html">Community Engagement</a></li>
+        <li><a href="./contact.html" aria-current="page">Contact</a></li>
+        <li><a href="./donate.html">Donate</a></li>
+        <li><a href="./shop.html">Merch Store</a></li>
+  </ul>
+</nav>
+
+<hr class="rule-heavy" />
+
+<main id="main">
+  <div class="page">
+    <div class="head reveal">
+      <h1>Contact the TMH Staff</h1>
+      <p class="standfirst">
+        Fill out the form below and your message will be sent securely and directly to
+        TMH staff. You will not need a Discord account for this; just a way for us to
+        reach you back.
       </p>
+    </div>
 
+    <section class="block reveal">
       <form id="contactForm">
-        <div>
+        <div class="field">
           <label for="name">Name / Handle</label>
           <input id="name" name="name" type="text" required placeholder="Call sign, nickname, or first name" />
         </div>
-        <div>
+        <div class="field">
           <label for="contactInfo">Preferred Contact</label>
           <input id="contactInfo" name="contactInfo" type="text" required placeholder="@discordname, email, etc." />
         </div>
-        <div>
+        <div class="field">
           <label for="message">Message</label>
           <textarea id="message" name="message" required placeholder="Share as much context as you feel comfortable."></textarea>
         </div>
-        <button type="submit">Send to Staff</button>
-        <p class="status" id="statusText"></p>
+        <div class="btn-row">
+          <button class="btn btn--solid" type="submit">Send to Staff</button>
+        </div>
+        <p class="status" id="statusText" role="status" aria-live="polite"></p>
       </form>
-    </main>
+    </section>
+  </div>
+</main>
 
-    <script src="./scripts/menu-component.js"></script>
-    <script>
-      const DISCORD_WEBHOOK_URL = "https://website.rennygadewarrior.workers.dev";
+<footer class="site">
+  <div class="page">
+    <div class="foot">
+      <div>
+        <h4>The Military Hub</h4>
+        <p class="foot__mission">TMH is a 501(c)(4) registered in the United States.</p>
+        <p class="foot__contact">Questions? Reach us at <a href="mailto:admin.tmh@gmail.com">admin.tmh@gmail.com</a></p>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="./aboutus.html">About Us</a></li>
+          <li><a href="./resources.html">Resources</a></li>
+          <li><a href="./community.html">Community Engagement</a></li>
+          <li><a href="./shop.html">Merch Store</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="./contact.html">Contact</a></li>
+          <li><a href="./donate.html">Donate</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__base">
+      <span>&copy; 2026 The Military Hub</span>
+      <span>501(c)(4) registered in the United States</span>
+    </div>
+  </div>
+</footer>
 
-      const form = document.getElementById('contactForm');
-      const statusText = document.getElementById('statusText');
+<script defer src="./scripts/reveal.js"></script>
+<script>
+  const DISCORD_WEBHOOK_URL = "https://website.rennygadewarrior.workers.dev";
 
-      form.addEventListener('submit', async event => {
-        event.preventDefault();
-        statusText.textContent = 'Sending...';
-        statusText.className = 'status';
+  const form = document.getElementById('contactForm');
+  const statusText = document.getElementById('statusText');
 
-        const payload = {
-          name: form.name.value,
-          contactInfo: form.contactInfo.value,
-          message: form.message.value
-        };
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    statusText.textContent = 'Sending...';
+    statusText.className = 'status';
 
+    const payload = {
+      name: form.name.value,
+      contactInfo: form.contactInfo.value,
+      message: form.message.value
+    };
 
-        try {
-          const response = await fetch(DISCORD_WEBHOOK_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-
-          if (!response.ok) {
-            throw new Error('Request failed');
-          }
-
-          statusText.textContent = 'Message delivered to staff. We will respond soon.';
-          statusText.classList.add('success');
-          form.reset();
-        } catch (error) {
-          console.error(error);
-          statusText.textContent =
-            'Unable to reach the Discord bot. Please try again or ping staff directly.';
-          statusText.classList.add('error');
-        }
+    try {
+      const response = await fetch(DISCORD_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
       });
-    </script>
-  </body>
+
+      if (!response.ok) {
+        throw new Error('Request failed');
+      }
+
+      statusText.textContent = 'Message delivered to staff. We will respond soon.';
+      statusText.classList.add('success');
+      form.reset();
+    } catch (error) {
+      console.error(error);
+      statusText.textContent =
+        'Unable to reach the Discord bot. Please try again or ping staff directly.';
+      statusText.classList.add('error');
+    }
+  });
+</script>
+</body>
 </html>

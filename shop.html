@@ -1,117 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <title>TMH | Merch Store</title>
-    <link rel="stylesheet" href="./styles/site.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <title>TMH | Merch Store</title>
+  <meta name="description" content="TMH merchandise on TeePublic. Every purchase directly supports TMH." />
+  <meta property="og:title" content="TMH | Merch Store" />
+  <meta property="og:description" content="TMH merchandise on TeePublic. Every purchase directly supports TMH." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://themilitaryhub.org/shop.html" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="./styles/site.css" />
+  <script>
+    (() => {
+      const r = document.documentElement;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!('IntersectionObserver' in window)) return;
+      r.classList.add('js-reveal');
+    })();
+  </script>
 </head>
-<body class="page page--shop">
-<a class="skip-link" href="#main-content">Skip to main content</a>
-<modular-menu
-        data-links='[
-        {"label":"Home","href":"./index.html"},
-        {"label":"About Us","href":"./aboutus.html"},
-        {"label":"Resources","href":"./resources.html"},
-        {"label":"Contact","href":"./contact.html"},
-        {"label":"Community Engagement","href":"./community.html"},
-        {"label":"Donate","href":"./donate.html"},
-        {"label":"Merch Store","href":"./shop.html"}
-      ]'
-></modular-menu>
-<main id="main-content" class="stack">
-    <section class="info-panel text-center">
-        <h1>Merch Store</h1>
-        <p>
-            Every purchase directly supports TMH. Browse by category below or view the full storefront on TeePublic. Already have an order?
-            <a href="https://www.teepublic.com/order/status" target="_blank" rel="noopener noreferrer">Track it here</a>.
-        </p>
-        <a class="btn" href="https://www.teepublic.com/user/sudden-sentience" target="_blank" rel="noopener noreferrer">Browse Full Store</a>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="masthead">
+  <div class="page">
+    <div class="masthead__top">
+      <a class="wordmark" href="./index.html">The Military Hub</a>
+      <span class="masthead__tag">For transgender US service members, past, present and future.</span>
+      <span class="masthead__est">Est. 2020</span>
+    </div>
+    <nav class="primary" aria-label="Primary">
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./aboutus.html">About Us</a></li>
+        <li><a href="./resources.html">Resources</a></li>
+        <li><a href="./community.html">Community Engagement</a></li>
+        <li><a href="./contact.html">Contact</a></li>
+        <li><a href="./donate.html">Donate</a></li>
+        <li><a href="./shop.html" aria-current="page">Merch Store</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Primary">
+  <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./aboutus.html">About Us</a></li>
+        <li><a href="./resources.html">Resources</a></li>
+        <li><a href="./community.html">Community Engagement</a></li>
+        <li><a href="./contact.html">Contact</a></li>
+        <li><a href="./donate.html">Donate</a></li>
+        <li><a href="./shop.html" aria-current="page">Merch Store</a></li>
+  </ul>
+</nav>
+
+<hr class="rule-heavy" />
+
+<main id="main">
+  <div class="page">
+    <div class="head reveal">
+      <h1>Merch Store</h1>
+      <p class="standfirst">
+        Every purchase directly supports TMH. Browse by category below or view the full
+        storefront on TeePublic. Already have an order?
+        <a href="https://www.teepublic.com/order/status" target="_blank" rel="noopener noreferrer">Track it here</a>.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn--solid" href="https://www.teepublic.com/user/sudden-sentience" target="_blank" rel="noopener noreferrer">Browse Full Store</a>
+      </div>
+    </div>
+
+    <section class="block reveal">
+      <h2>Adult Apparel</h2>
+      <div class="shop-grid">
+        <a class="shop-item" href="https://www.teepublic.com/user/sudden-sentience/t-shirts" target="_blank" rel="noopener noreferrer">
+          <img src="shop_media/shirts_tmh.jpg" alt="Shirts" loading="lazy" /><span>Shirts</span>
+        </a>
+        <a class="shop-item" href="https://www.teepublic.com/user/sudden-sentience/hoodie" target="_blank" rel="noopener noreferrer">
+          <img src="shop_media/hoodies_tmh.jpg" alt="Hoodies" loading="lazy" /><span>Hoodies</span>
+        </a>
+        <a class="shop-item" href="https://www.teepublic.com/user/sudden-sentience/long-sleeve-t-shirt" target="_blank" rel="noopener noreferrer">
+          <img src="shop_media/long-sleeve_tmh.jpg" alt="Long Sleeve Shirts" loading="lazy" /><span>Long Sleeve</span>
+        </a>
+        <a class="shop-item" href="https://www.teepublic.com/user/sudden-sentience/crewneck-sweatshirt" target="_blank" rel="noopener noreferrer">
+          <img src="shop_media/crewneck_tmh.jpg" alt="Crewnecks" loading="lazy" /><span>Crewnecks</span>
+        </a>
+        <a class="shop-item" href="https://www.teepublic.com/user/sudden-sentience/tank-top" target="_blank" rel="noopener noreferrer">
+          <img src="shop_media/tanktop_tmh.jpg" alt="Tank Tops" loading="lazy" /><span>Tank Tops</span>
+        </a>
+        <a class="shop-item" href="https://www.teepublic.com/user/sudden-sentience/shorts" target="_blank" rel="noopener noreferrer">
+          <img src="shop_media/short_tmh.jpg" alt="Shorts" loading="lazy" /><span>Shorts</span>
+        </a>
+        <a class="shop-item" href="https://www.teepublic.com/user/sudden-sentience/baseball-t-shirt" target="_blank" rel="noopener noreferrer">
+          <img src="shop_media/baseball-tshirt_tmh.jpg" alt="Baseball T-Shirts" loading="lazy" /><span>Baseball Tees</span>
+        </a>
+      </div>
     </section>
 
-    <section class="card">
-        <h2>Adult Apparel</h2>
-        <div class="shop-grid">
-            <a class="shop-card" href="https://www.teepublic.com/user/sudden-sentience/t-shirts" target="_blank" rel="noopener noreferrer">
-                <img src="shop_media/shirts_tmh.jpg" alt="Shirts" />
-                <span>Shirts</span>
-            </a>
-            <a class="shop-card" href="https://www.teepublic.com/user/sudden-sentience/hoodie" target="_blank" rel="noopener noreferrer">
-                <img src="shop_media/hoodies_tmh.jpg" alt="Hoodies" />
-                <span>Hoodies</span>
-            </a>
-            <a class="shop-card" href="https://www.teepublic.com/user/sudden-sentience/long-sleeve-t-shirt" target="_blank" rel="noopener noreferrer">
-                <img src="shop_media/long-sleeve_tmh.jpg" alt="Long Sleeve Shirts" />
-                <span>Long Sleeve</span>
-            </a>
-            <a class="shop-card" href="https://www.teepublic.com/user/sudden-sentience/crewneck-sweatshirt" target="_blank" rel="noopener noreferrer">
-                <img src="shop_media/crewneck_tmh.jpg" alt="Crewnecks" />
-                <span>Crewnecks</span>
-            </a>
-            <a class="shop-card" href="https://www.teepublic.com/user/sudden-sentience/tank-top" target="_blank" rel="noopener noreferrer">
-                <img src="shop_media/tanktop_tmh.jpg" alt="Tank Tops" />
-                <span>Tank Tops</span>
-            </a>
-            <a class="shop-card" href="https://www.teepublic.com/user/sudden-sentience/shorts" target="_blank" rel="noopener noreferrer">
-                <img src="shop_media/short_tmh.jpg" alt="Shorts" />
-                <span>Shorts</span>
-            </a>
-            <a class="shop-card" href="https://www.teepublic.com/user/sudden-sentience/baseball-t-shirt" target="_blank" rel="noopener noreferrer">
-                <img src="shop_media/baseball-tshirt_tmh.jpg" alt="Baseball T-Shirts" />
-                <span>Baseball Tees</span>
-            </a>
-        </div>
+    <section class="block reveal">
+      <h2>Accessories</h2>
+      <div class="shop-grid">
+        <a class="shop-item" href="https://www.teepublic.com/user/sudden-sentience/bags" target="_blank" rel="noopener noreferrer">
+          <img src="shop_media/bag_tmh.jpg" alt="Bags" loading="lazy" /><span>Bags</span>
+        </a>
+        <a class="shop-item" href="https://www.teepublic.com/user/sudden-sentience/hats" target="_blank" rel="noopener noreferrer">
+          <img src="shop_media/hats_tmh.jpg" alt="Hats" loading="lazy" /><span>Hats</span>
+        </a>
+        <a class="shop-item" href="https://www.teepublic.com/user/sudden-sentience/stickers" target="_blank" rel="noopener noreferrer">
+          <img src="shop_media/sticker_tmh.jpg" alt="Stickers" loading="lazy" /><span>Stickers</span>
+        </a>
+        <a class="shop-item" href="https://www.teepublic.com/user/sudden-sentience/magnets" target="_blank" rel="noopener noreferrer">
+          <img src="shop_media/magnet_tmh.jpg" alt="Magnets" loading="lazy" /><span>Magnets</span>
+        </a>
+        <a class="shop-item" href="https://www.teepublic.com/user/sudden-sentience/phone-case" target="_blank" rel="noopener noreferrer">
+          <img src="shop_media/phone-case_tmh.jpg" alt="Phone Cases" loading="lazy" /><span>Phone Cases</span>
+        </a>
+        <a class="shop-item" href="https://www.teepublic.com/user/sudden-sentience/pins" target="_blank" rel="noopener noreferrer">
+          <img src="shop_media/pin_tmh.jpg" alt="Pins" loading="lazy" /><span>Pins</span>
+        </a>
+        <a class="shop-item" href="https://www.teepublic.com/user/sudden-sentience/totes" target="_blank" rel="noopener noreferrer">
+          <img src="shop_media/tote_tmh.jpg" alt="Totes" loading="lazy" /><span>Totes</span>
+        </a>
+      </div>
     </section>
 
-    <section class="card">
-        <h2>Accessories</h2>
-        <div class="shop-grid">
-            <a class="shop-card" href="https://www.teepublic.com/user/sudden-sentience/bags" target="_blank" rel="noopener noreferrer">
-                <img src="shop_media/bag_tmh.jpg" alt="Bags" />
-                <span>Bags</span>
-            </a>
-            <a class="shop-card" href="https://www.teepublic.com/user/sudden-sentience/hats" target="_blank" rel="noopener noreferrer">
-                <img src="shop_media/hats_tmh.jpg" alt="Hats" />
-                <span>Hats</span>
-            </a>
-            <a class="shop-card" href="https://www.teepublic.com/user/sudden-sentience/stickers" target="_blank" rel="noopener noreferrer">
-                <img src="shop_media/sticker_tmh.jpg" alt="Stickers" />
-                <span>Stickers</span>
-            </a>
-            <a class="shop-card" href="https://www.teepublic.com/user/sudden-sentience/magnets" target="_blank" rel="noopener noreferrer">
-                <img src="shop_media/magnet_tmh.jpg" alt="Magnets" />
-                <span>Magnets</span>
-            </a>
-            <a class="shop-card" href="https://www.teepublic.com/user/sudden-sentience/phone-case" target="_blank" rel="noopener noreferrer">
-                <img src="shop_media/phone-case_tmh.jpg" alt="Phone Cases" />
-                <span>Phone Cases</span>
-            </a>
-            <a class="shop-card" href="https://www.teepublic.com/user/sudden-sentience/pins" target="_blank" rel="noopener noreferrer">
-                <img src="shop_media/pin_tmh.jpg" alt="Pins" />
-                <span>Pins</span>
-            </a>
-            <a class="shop-card" href="https://www.teepublic.com/user/sudden-sentience/totes" target="_blank" rel="noopener noreferrer">
-                <img src="shop_media/tote_tmh.jpg" alt="Totes" />
-                <span>Totes</span>
-            </a>
-        </div>
+    <section class="block reveal">
+      <h2>Home Goods</h2>
+      <div class="shop-grid">
+        <a class="shop-item" href="https://www.teepublic.com/user/sudden-sentience/mug" target="_blank" rel="noopener noreferrer">
+          <img src="shop_media/mugs_tmh.jpg" alt="Mugs" loading="lazy" /><span>Mugs</span>
+        </a>
+        <a class="shop-item" href="https://www.teepublic.com/user/sudden-sentience/throw-pillows" target="_blank" rel="noopener noreferrer">
+          <img src="shop_media/pillow_tmh.jpg" alt="Pillows" loading="lazy" /><span>Pillows</span>
+        </a>
+      </div>
     </section>
-
-    <section class="card">
-        <h2>Home Goods</h2>
-        <div class="shop-grid">
-            <a class="shop-card" href="https://www.teepublic.com/user/sudden-sentience/mug" target="_blank" rel="noopener noreferrer">
-                <img src="shop_media/mugs_tmh.jpg" alt="Mugs" />
-                <span>Mugs</span>
-            </a>
-            <a class="shop-card" href="https://www.teepublic.com/user/sudden-sentience/throw-pillows" target="_blank" rel="noopener noreferrer">
-                <img src="shop_media/pillow_tmh.jpg" alt="Pillows" />
-                <span>Pillows</span>
-            </a>
-        </div>
-    </section>
+  </div>
 </main>
-<script src="./scripts/menu-component.js"></script>
+
+<footer class="site">
+  <div class="page">
+    <div class="foot">
+      <div>
+        <h4>The Military Hub</h4>
+        <p class="foot__mission">TMH is a 501(c)(4) registered in the United States.</p>
+        <p class="foot__contact">Questions? Reach us at <a href="mailto:admin.tmh@gmail.com">admin.tmh@gmail.com</a></p>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="./aboutus.html">About Us</a></li>
+          <li><a href="./resources.html">Resources</a></li>
+          <li><a href="./community.html">Community Engagement</a></li>
+          <li><a href="./shop.html">Merch Store</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="./contact.html">Contact</a></li>
+          <li><a href="./donate.html">Donate</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__base">
+      <span>&copy; 2026 The Military Hub</span>
+      <span>501(c)(4) registered in the United States</span>
+    </div>
+  </div>
+</footer>
+
+<script defer src="./scripts/reveal.js"></script>
 </body>
 </html>

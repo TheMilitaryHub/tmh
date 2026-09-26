@@ -1,64 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <title>TMH | About</title>
-    <link rel="stylesheet" href="./styles/site.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <title>TMH | About</title>
+  <meta name="description" content="TMH started in 2020 as a Discord server for current, future, and former transgender US service members." />
+  <meta property="og:title" content="TMH | About" />
+  <meta property="og:description" content="TMH started in 2020 as a Discord server for current, future, and former transgender US service members." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://themilitaryhub.org/aboutus.html" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="./styles/site.css" />
+  <script>
+    (() => {
+      const r = document.documentElement;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!('IntersectionObserver' in window)) return;
+      r.classList.add('js-reveal');
+    })();
+  </script>
 </head>
-<body class="page page--about">
-<a class="skip-link" href="#main-content">Skip to main content</a>
-<modular-menu
-        data-links='[
-        {"label":"Home","href":"./index.html"},
-        {"label":"About Us","href":"./aboutus.html"},
-        {"label":"Resources","href":"./resources.html"},
-        {"label":"Contact","href":"./contact.html"},
-        {"label":"Community Engagement","href":"./community.html"},
-        {"label":"Donate","href":"./donate.html"},
-        {"label":"Merch Store","href":"./shop.html"}
-      ]'
-></modular-menu>
+<body>
 
-<main id="main-content" class="text-center">
-    <h1>About TMH</h1>
-    <p>
-        TMH started in 2020 as a Discord server for current, future, and former transgender US service members. Since then it has expanded to multiple platforms and is a cornerstone for the community. We provide help and resources along with a place to hang out with friends virtually. In the constantly changing landscape of transgender rights, and protections, TMH is there for the community.
-    </p>
-</main>
+<a class="skip-link" href="#main">Skip to main content</a>
 
-<section id="team" class="info-panel">
-    <h2>What You'll Find Inside</h2>
-
-    <div class="team-grid">
-        <article class="team-card">
-            <h3>Community</h3>
-            <p>A place to spend time and chat with other transgender service members. Play video games together, share music recommendations, and share the funniest meme of the day.</p>
-        </article>
-        <article class="team-card">
-            <h3>Mutual Aid</h3>
-            <p>When a participant in one of our programs is in crisis, we work together to help them the best we can. We try to arm everyone with the resources they need or point them to the place to get the resources we don't have.</p>
-        </article>
-        <article class="team-card">
-            <h3>Advocacy</h3>
-            <p>We use the resources out there to help track state and local level legislation impacting the transgender military community; both positively and negatively. We encourage everyone to participate in advocacy efforts that will help protect all transgender individuals.</p>
-        </article>
+<header class="masthead">
+  <div class="page">
+    <div class="masthead__top">
+      <a class="wordmark" href="./index.html">The Military Hub</a>
+      <span class="masthead__tag">For transgender US service members, past, present and future.</span>
+      <span class="masthead__est">Est. 2020</span>
     </div>
-</section>
+    <nav class="primary" aria-label="Primary">
+      <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./aboutus.html" aria-current="page">About Us</a></li>
+        <li><a href="./resources.html">Resources</a></li>
+        <li><a href="./community.html">Community Engagement</a></li>
+        <li><a href="./contact.html">Contact</a></li>
+        <li><a href="./donate.html">Donate</a></li>
+        <li><a href="./shop.html">Merch Store</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-<section class="info-panel">
-    <h2>Joining the Community</h2>
-    <p>
+<nav class="rail" aria-label="Primary">
+  <ul>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./aboutus.html" aria-current="page">About Us</a></li>
+        <li><a href="./resources.html">Resources</a></li>
+        <li><a href="./community.html">Community Engagement</a></li>
+        <li><a href="./contact.html">Contact</a></li>
+        <li><a href="./donate.html">Donate</a></li>
+        <li><a href="./shop.html">Merch Store</a></li>
+  </ul>
+</nav>
+
+<hr class="rule-heavy" />
+
+<main id="main">
+  <div class="page">
+    <div class="head reveal">
+      <h1>About TMH</h1>
+      <p class="standfirst">
+        TMH started in 2020 as a Discord server for current, future, and former
+        transgender US service members. Since then it has expanded to multiple platforms
+        and is a cornerstone for the community. We provide help and resources along with
+        a place to hang out with friends virtually. In the constantly changing landscape
+        of transgender rights, and protections, TMH is there for the community.
+      </p>
+    </div>
+
+    <section class="block reveal" id="team">
+      <h2>What You'll Find Inside</h2>
+      <div class="entries">
+        <div class="entry">
+          <div class="entry__k">Community</div>
+          <div class="entry__v">
+            <p>A place to spend time and chat with other transgender service members.
+              Play video games together, share music recommendations, and share the
+              funniest meme of the day.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <div class="entry__k">Mutual Aid</div>
+          <div class="entry__v">
+            <p>When a participant in one of our programs is in crisis, we work together
+              to help them the best we can. We try to arm everyone with the resources
+              they need or point them to the place to get the resources we don't have.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <div class="entry__k">Advocacy</div>
+          <div class="entry__v">
+            <p>We use the resources out there to help track state and local level
+              legislation impacting the transgender military community; both positively
+              and negatively. We encourage everyone to participate in advocacy efforts
+              that will help protect all transgender individuals.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block reveal">
+      <h2>Joining the Community</h2>
+      <p class="block__intro">
         We verify new members to keep bad actors out.
-        If you are interested in joining, we promise that your safety, security and privacy matters and will be protected.
-    </p>
-    <p>
+        If you are interested in joining, we promise that your safety, security and
+        privacy matters and will be protected.
+      </p>
+      <p style="margin-top:1rem">
         Questions? Reach us at
         <a href="mailto:admin.tmh@gmail.com">admin.tmh@gmail.com</a>
-    </p>
-</section>
+      </p>
+    </section>
+  </div>
+</main>
 
-<script src="./scripts/menu-component.js"></script>
+<footer class="site">
+  <div class="page">
+    <div class="foot">
+      <div>
+        <h4>The Military Hub</h4>
+        <p class="foot__mission">TMH is a 501(c)(4) registered in the United States.</p>
+        <p class="foot__contact">Questions? Reach us at <a href="mailto:admin.tmh@gmail.com">admin.tmh@gmail.com</a></p>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="./aboutus.html">About Us</a></li>
+          <li><a href="./resources.html">Resources</a></li>
+          <li><a href="./community.html">Community Engagement</a></li>
+          <li><a href="./shop.html">Merch Store</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="./contact.html">Contact</a></li>
+          <li><a href="./donate.html">Donate</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot__base">
+      <span>&copy; 2026 The Military Hub</span>
+      <span>501(c)(4) registered in the United States</span>
+    </div>
+  </div>
+</footer>
+
+<script defer src="./scripts/reveal.js"></script>
 </body>
 </html>

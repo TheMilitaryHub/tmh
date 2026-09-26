@@ -1,0 +1,9 @@
+{
+  "name": "tmh-resources-api",
+  "main": "index.js",
+  "compatibility_date": "2026-06-04",
+  "observability": { "enabled": true },
+  "vars": {
+    "ALLOWED_ORIGINS": "https://themilitaryhub.org,https://www.themilitaryhub.org"
+  }
+}
