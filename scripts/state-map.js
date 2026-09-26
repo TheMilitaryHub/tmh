@@ -6,7 +6,6 @@
   const REGION_HAWAII = 'hawaii';
   const REGION_PUERTO_RICO = 'puertorico';
 
-  let stateFilesData = window.STATE_RESOURCE_FILES || {};
   const stateLayers = new Map(); 
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -22,17 +21,17 @@
           if (initialized || !entries[0].isIntersecting) return;
           initialized = true;
           observer.disconnect();
-          initLeafletMap(mapMount, mapCanvas, panelApi, stateFilesData);
+          initLeafletMap(mapMount, mapCanvas, panelApi);
         },
         { rootMargin: '200px' }
       );
       observer.observe(mapMount);
     } else {
-      initLeafletMap(mapMount, mapCanvas, panelApi, stateFilesData);
+      initLeafletMap(mapMount, mapCanvas, panelApi);
     }
   });
 
-  async function initLeafletMap(mount, canvas, panelApi, filesData) {
+  async function initLeafletMap(mount, canvas, panelApi) {
     if (!window.L) {
       setMapError(mount, 'Leaflet failed to load.');
       return;
@@ -65,13 +64,10 @@
     map.fitBounds(bounds, { animate: false });
     map.setMaxBounds(bounds.pad(0.2));
 
-    const stateLayer = createStateLayer(baseProjection.geojson, panelApi, filesData, viewBox.height);
+    const stateLayer = createStateLayer(baseProjection.geojson, panelApi, viewBox.height);
     stateLayer.addTo(map);
     applyResourceHighlights();
-    document.addEventListener('tmh:state-resources', () => {
-      stateFilesData = window.STATE_RESOURCE_FILES || {};
-      applyResourceHighlights();
-    });
+    document.addEventListener('tmh:state-resources', applyResourceHighlights);
 
     if (markersData && markersData.length) {
       const markerLayer = createMarkerLayer(markersData, projectionContext, viewBox.height);
@@ -118,7 +114,7 @@
     }
   }
 
-  function createStateLayer(geojson, panelApi, filesData, viewBoxHeight) {
+  function createStateLayer(geojson, panelApi, viewBoxHeight) {
     const defaultStyle = {
       className: 'us-map__state',
       color: 'rgba(255, 255, 255, 0.25)',
@@ -644,10 +640,11 @@
   }
 
   function applyResourceHighlights() {
+    const data = window.STATE_RESOURCE_FILES || {};
     stateLayers.forEach((layer, key) => {
       const el = layer.getElement && layer.getElement();
       if (!el) return;
-      const has = Array.isArray(stateFilesData[key]) && stateFilesData[key].length > 0;
+      const has = Array.isArray(data[key]) && data[key].length > 0;
       el.classList.toggle('has-resources', has);
     });
   }
