@@ -55,6 +55,42 @@
     </li>`;
   }
 
+  let shownItems = [];
+  let activeCat = null;
+
+  function paintList() {
+    const items = activeCat ? shownItems.filter((i) => i.category === activeCat) : shownItems;
+    const total = shownItems.length;
+    const counts = new Map();
+    for (const i of shownItems) counts.set(i.category, (counts.get(i.category) || 0) + 1);
+
+    const chips = [...counts.entries()]
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .map(([cat, n]) => {
+        const on = cat === activeCat;
+        return `<button type="button" class="cat-filter${on ? ' is-on' : ''}" data-cat="${esc(cat)}" aria-pressed="${on}">` +
+          `${esc(cat)} <span class="cat-filter__n">${n}</span></button>`;
+      }).join('');
+
+    const allOn = !activeCat;
+    statusEl.innerHTML =
+      `<span class="dir-count">${activeCat ? items.length + ' of ' + total : total + ' listing' + (total === 1 ? '' : 's')}</span>` +
+      `<span class="cat-filters">` +
+        `<button type="button" class="cat-filter${allOn ? ' is-on' : ''}" data-cat="" aria-pressed="${allOn}">All</button>` +
+        chips +
+      `</span>`;
+
+    listEl.innerHTML = items.map(card).join('');
+  }
+
+  statusEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.cat-filter');
+    if (!btn) return;
+    const cat = btn.dataset.cat || null;
+    activeCat = (cat && cat !== activeCat) ? cat : null;
+    paintList();
+  });
+
   function render(stateName) {
     if (!data) return;
     const key = String(stateName || '').toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -62,14 +98,15 @@
     const items = bucket ? bucket.items : [];
 
     titleEl.textContent = stateName || 'Select a state';
+    activeCat = null;
+    shownItems = items;
+
     if (!items.length) {
       statusEl.textContent = 'Nothing listed for this state yet.';
       listEl.innerHTML = '';
       return;
     }
-    const cats = [...new Set(items.map((i) => i.category))];
-    statusEl.textContent = `${items.length} listing${items.length === 1 ? '' : 's'} · ${cats.join(' · ')}`;
-    listEl.innerHTML = items.map(card).join('');
+    paintList();
   }
 
   function renderNational() {
