@@ -1,4 +1,4 @@
-import { resolveStates, normaliseRecord, isUsable, key } from './normalize.js';
+import { resolveStates, normaliseRecord, canonicalFields, isUsable, key } from './normalize.js';
 
 const BASE = 'appR5jvXshfmt42zA';
 
@@ -10,6 +10,7 @@ const TABLES = {
   'Mental Health Resources':     'Mental health',
   'LGBTQ+ Centers':              'LGBTQ+ centers',
   'Other Resources':             'Other',
+  'GAS Providers':               'Surgery',
   'National Help':               'National',
 };
 
@@ -63,7 +64,7 @@ async function build(env) {
       const entry = normaliseRecord(rec, category, table);
       if (!isUsable(entry)) { skipped++; continue; }
 
-      const loc = resolveStates((rec.fields || {}).Location);
+      const loc = resolveStates(canonicalFields(rec.fields || {}, table).Location);
       if (table === 'National Help' || loc.national || !loc.states.length) {
         national.push(entry);
         continue;

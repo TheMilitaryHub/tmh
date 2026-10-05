@@ -45,8 +45,41 @@ function resolveStates(raw) {
   return { states: [...out], national: false, unresolved: out.size ? '' : s };
 }
 
+const TABLE_ALIASES = {
+  'GAS Providers': {
+    'Location': 'Name',
+    "Doctor's Name": 'Notes',
+    'Clinic Name': 'Assignee',
+    'Address': 'Status',
+    'Phone Number': 'Attachments',
+    'Website': 'Pasted field 1',
+    'Restrictions': 'Pasted field 2',
+    'Insurance Notes': 'Pasted field 3',
+    'Notes': 'Pasted field 4',
+  },
+};
+
+function canonicalFields(fields, table) {
+  const map = TABLE_ALIASES[table];
+  if (!map) return fields;
+  const aliasTargets = new Set(Object.values(map));
+  const out = { ...fields };
+  for (const [canon, actual] of Object.entries(map)) {
+    const canonIsItselfAnAlias = aliasTargets.has(canon);
+    const v = (!canonIsItselfAnAlias && fields[canon] !== undefined) ? fields[canon] : fields[actual];
+    if (v === undefined) delete out[canon]; else out[canon] = v;
+  }
+  if (table === 'GAS Providers') {
+    const surgeon = cleanText(out["Doctor's Name"]);
+    const practice = cleanText(out['Clinic Name']);
+    if (surgeon && practice) out["Doctor's Name"] = surgeon + ' \u2014 ' + practice;
+  }
+  return out;
+}
+
 const NAME_ORDER = {
   'Healthcare Resources': ["Doctor's Name", 'Clinic Name'],
+  'GAS Providers': ["Doctor's Name", 'Clinic Name'],
   'default': ['Shelter Name','Organization Name','Hospital Name','Center Name','Clinic Name','Organization',"Doctor's Name"],
 };
 const MAX_NAME = 90;
@@ -61,7 +94,7 @@ function chooseName(f, table) {
 }
 
 function normaliseRecord(rec, category, table) {
-  const f = rec.fields || {};
+  const f = canonicalFields(rec.fields || {}, table);
   const { name, description } = chooseName(f, table);
 
   const rawAddr = cleanText(f['Address']);
@@ -97,4 +130,4 @@ function hostLabel(url) {
 
 const isUsable = (e) => (e.name && e.name !== 'Unnamed') || !!e.website || !!e.phone;
 
-export { cleanText, cleanUrl, cleanPhone, resolveStates, normaliseRecord, isUsable, key };
+export { cleanText, cleanUrl, cleanPhone, resolveStates, normaliseRecord, canonicalFields, isUsable, key };
